@@ -17,7 +17,7 @@ States.insert_one({
     "worker_id": "185.203.67.209"
 })
 
-class States(Resource):
+class GetWorkerInfo(Resource):
     def post(self):
         data = request.get_json()
         States.update_one({"worker_id":"185.203.67.209"},{"$set":data})
@@ -28,16 +28,10 @@ class States(Resource):
         return jsonify(state)
 
 
-class Student(Resource):
-    def get(self,name):
-        return {'student': name}
-
-
-
 routes = ['/states/add','/states']
 
 api.add_resource(Student, '/student/<string:name>')
-api.add_resource(States,*routes)
+api.add_resource(GetWorkerInfo,*routes)
 
 if __name__ == "__main__":
     app.run(port=5000,host='0.0.0.0')
