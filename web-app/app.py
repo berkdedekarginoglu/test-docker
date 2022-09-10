@@ -20,17 +20,18 @@ States.insert_one({
 class GetWorkerInfo(Resource):
     def post(self):
         data = request.get_json()
-        States.update_one({"worker_id":"185.203.67.209"},{"$set":data})
-        return {"success":True}
+        States = db["States"]
+        States.insert_one(data)
+        #States.update_one({"worker_id":"185.203.67.209"},{"$set":data})
+        return States.find({})
 
     def get(self):
-        state = States.find({})
-        return jsonify(state)
+        States = db["States"]
+        return jsonify(States.find({}))
 
 
 routes = ['/states/add','/states']
 
-api.add_resource(Student, '/student/<string:name>')
 api.add_resource(GetWorkerInfo,*routes)
 
 if __name__ == "__main__":
