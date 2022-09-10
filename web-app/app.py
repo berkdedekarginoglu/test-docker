@@ -7,11 +7,10 @@ app = Flask(__name__)
 api = Api(app)
 
 client = MongoClient("mongodb://db:27017")
-
-db = client.aNewDB
+db = client["aNewDB"]
 Workers = db["Workers"]
 
-Workers.insert({
+Workers.insert_one({
     "num_of_workers": 0
 })
 
