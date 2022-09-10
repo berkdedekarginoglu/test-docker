@@ -1,2 +1,2 @@
 Flask
-flash-restful
+flask-restful
