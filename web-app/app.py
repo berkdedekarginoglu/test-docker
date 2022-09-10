@@ -9,22 +9,22 @@ app = Flask(__name__)
 api = Api(app)
 
 client = MongoClient("mongodb://db:27017")
-db = client["TwitterWorkers"]
+db = client.TwitterWorkers
 
-TwitterWorkers = db["States"]
+States = db["States"]
 
-TwitterWorkers.insert_one({
+States.insert_one({
     "worker_id": "185.203.67.209"
 })
 
 class States(Resource):
     def post(self):
         data = request.get_json()
-        TwitterWorkers.update_one({"worker_id":"185.203.67.209"},{"$set":json.loads(data)})
+        States.update_one({"worker_id":"185.203.67.209"},{"$set":data})
         return {"success":True}
 
     def get(self):
-        state = TwitterWorkers.find({})
+        state = States.find({})
         return jsonify(state)
 
 
