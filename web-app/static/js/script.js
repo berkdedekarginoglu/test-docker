@@ -1,5 +1,5 @@
 setInterval(function() {
-   etch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
+   fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
 .then(function(response){
    return response.json();
 })
@@ -8,8 +8,8 @@ setInterval(function() {
    let rate_out = "";
    let error_output_rate_flow = document.querySelector("#data-output-error-flow");
    let error_out = "";
-   var total_success = 0
-   var total_scan = 0
+   let total_success = 0
+   let total_scan = 0
    for(let worker of workers){
       total_success = total_success + parseInt(worker.total_success)
       total_scan = total_scan + parseInt(worker.total_scan)
@@ -34,9 +34,9 @@ setInterval(function() {
          rate_out += `
          <tr>
             <td class="text-center"><b>Total</b></td>
+            <td class="text-center">${total_scan}</td>
+            <td class="text-center">${total_success}</td>
             <td class="text-center">-</td>
-            <td class="text-center">total_scan.toString()</td>
-            <td class="text-center">total_scan.toString()</td>
             <td class="text-center">-</td>
             <td class="text-center">-</td>
             <td class="text-center">-</td>
