@@ -1,4 +1,5 @@
-fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
+setInterval(function() {
+   etch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
 .then(function(response){
    return response.json();
 })
@@ -42,7 +43,8 @@ fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
          </tr>
       `;
    };
- 
+
    data_output_rate_flow.innerHTML = rate_out;
    error_output_rate_flow.innerHTML = error_out;
 });
+ }, 10000);
