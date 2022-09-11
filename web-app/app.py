@@ -1,15 +1,26 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
 
 app = Flask(__name__)
 api = Api(app)
 
+
+
 client = MongoClient("mongodb://db:27017")
 selected_db = client.twitter_workers_db
 worker_states = selected_db.worker_states
 worker_states.drop()
 worker_states = selected_db.worker_states
+
+
+@app.route("/show")
+def show():
+    return render_template("index.html")
+
+class Index(Resource):
+    def get(self):
+        return render_template("index.html")
 
 class Add(Resource):
     def post(self):
@@ -28,7 +39,6 @@ class Add(Resource):
             }
             return jsonify(returnMap)
 
-
 class Get(Resource):
     def get(self):
         try:
@@ -40,7 +50,6 @@ class Get(Resource):
                 'error': str(e)
             }
             return jsonify(returnMap)
-
 
 class Update(Resource):
     def post(self):
