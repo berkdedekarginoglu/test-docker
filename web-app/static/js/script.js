@@ -8,14 +8,18 @@ setInterval(function() {
    let rate_out = "";
    let error_output_rate_flow = document.querySelector("#data-output-error-flow");
    let error_out = "";
+   var total_success = 0
+   var total_scan = 0
    for(let worker of workers){
+      total_success = total_success + parseInt(worker.total_success)
+      total_scan = total_scan + parseInt(worker.total_scan)
       rate_out += `
          <tr>
             <td class="text-center">${worker.worker_ip}</td>
             <td class="text-center">${worker.total_scan}</td>
             <td class="text-center">${worker.total_success}</td>
-            <td class="text-center">${worker.last_success_date}</td>
-            <td class="text-center">${worker.success_rate}</td>
+            <td class="text-center">${worker.last_success_date.split('.')[0]}</td>
+            <td class="text-center">${worker.success_rate.split('.')[0]}</td>
             <td class="text-center">${worker.success}</td>
             <td class="text-center">+${worker.selected_country}</td>
             <td class="text-center">${worker.selected_gsm}</td>
@@ -26,6 +30,23 @@ setInterval(function() {
          </tr>
       `;
    };
+
+         rate_out += `
+         <tr>
+            <td class="text-center"><b>Total</b></td>
+            <td class="text-center">-</td>
+            <td class="text-center">total_scan.toString()</td>
+            <td class="text-center">total_scan.toString()</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+         </tr>
+      `;
 
    for(let worker of workers){
       error_out += `
