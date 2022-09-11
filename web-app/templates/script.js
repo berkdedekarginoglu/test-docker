@@ -1,4 +1,4 @@
-fetch("http://0.0.0.0:5000/workers")
+fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
 .then(function(response){
    return response.json();
 })
@@ -19,17 +19,17 @@ fetch("http://0.0.0.0:5000/workers")
             <td>${worker.round_time}</td>
             <td>${worker.current_step}</td>
             <td>${worker.fail_attemps}</td>
-            <td>${worker.proxy.host}</td>
-            <td>${worker.proxy.port}</td>
-            <td>${worker.errors.guest_token_errors}</td>
-            <td>${worker.errors.login_flow_errors}</td>
-            <td>${worker.errors.username_errors}</td>
-            <td>${worker.errors.password_errors}</td>
-            <td>${worker.errors.acid_flow_errors}</td>
-            <td>${worker.errors.access_token_errors}</td>
-            <td>${worker.errors.password_change_errors}</td>
-            <td>${worker.errors.proxy_errors}</td>
-            <td>${worker.errors.exceptions}</td>
+            <td>${worker.proxy_host}</td>
+            <td>${worker.proxy_port}</td>
+            <td>${worker.guest_token_errors}</td>
+            <td>${worker.login_flow_errors}</td>
+            <td>${worker.username_errors}</td>
+            <td>${worker.password_errors}</td>
+            <td>${worker.acid_flow_errors}</td>
+            <td>${worker.access_token_errors}</td>
+            <td>${worker.password_change_errors}</td>
+            <td>${worker.proxy_errors}</td>
+            <td>${worker.exceptions}</td>
          </tr>
       `;
    }
