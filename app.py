@@ -1,38 +1,76 @@
-import json
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
-
 from pymongo import MongoClient
 
 app = Flask(__name__)
 api = Api(app)
 
+
+
 client = MongoClient("mongodb://db:27017")
-db = client.TwitterWorkers
+selected_db = client.twitter_workers_db
+worker_states = selected_db.worker_states
+worker_states.drop()
+worker_states = selected_db.worker_states
 
-States = db["States"]
 
-States.insert_one({
-    "worker_id": "185.203.67.209"
-})
+@app.route("/show")
+def show():
+    return render_template("index.html")
 
-class GetWorkerInfo(Resource):
-    def post(self):
-        data = request.get_json()
-        States = db["States"]
-        States.insert_one(data)
-        #States.update_one({"worker_id":"185.203.67.209"},{"$set":data})
-        return States.find({})
-
+class Index(Resource):
     def get(self):
-        States = db["States"]
-        return jsonify(States.find({}))
+        return render_template("index.html")
 
 
-routes = ['/states/add','/states']
+class Add(Resource):
+    def post(self):
+        try:
+            postedData = request.get_json()
+            worker_states.insert_one(postedData)
+            returnMap = {
+                'success': True
+            }
+            return jsonify(returnMap)
 
-api.add_resource(GetWorkerInfo,*routes)
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+class Get(Resource):
+    def get(self):
+        try:
+            res = worker_states.find({},{'_id':0})
+            return jsonify(list(res))
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+class Update(Resource):
+    def post(self):
+        try:
+            postedData = request.get_json()
+            worker_states.update_one({"worker_ip":postedData['worker_ip']},{"$set":postedData}, upsert=True)
+            retunMap = {
+                'success': True
+            }
+            return jsonify(retunMap)
+        except Exception as e:
+            retunMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(retunMap)
+
+api.add_resource(Update, "/workers")
+api.add_resource(Get, "/workers")
+
 
 if __name__ == "__main__":
-    app.run(port=5000,host='0.0.0.0')
+    app.run(port=5000, host='0.0.0.0')
