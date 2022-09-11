@@ -5,14 +5,14 @@ from pymongo import MongoClient
 app = Flask(__name__)
 api = Api(app)
 
-
+'''
 
 client = MongoClient("mongodb://db:27017")
 selected_db = client.twitter_workers_db
 worker_states = selected_db.worker_states
 worker_states.drop()
 worker_states = selected_db.worker_states
-
+'''
 
 @app.route("/show")
 def show():
@@ -22,6 +22,7 @@ class Index(Resource):
     def get(self):
         return render_template("index.html")
 
+'''
 class Add(Resource):
     def post(self):
         try:
@@ -69,6 +70,7 @@ class Update(Resource):
 
 api.add_resource(Update, "/workers")
 api.add_resource(Get, "/workers")
+'''
 
 if __name__ == "__main__":
     app.run(port=5000, host='0.0.0.0')
