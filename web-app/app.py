@@ -8,7 +8,8 @@ api = Api(app)
 client = MongoClient("mongodb://db:27017")
 selected_db = client.twitter_workers_db
 worker_states = selected_db.worker_states
-
+worker_states.drop()
+worker_states = selected_db.worker_states
 
 class Add(Resource):
     def post(self):
@@ -31,16 +32,8 @@ class Add(Resource):
 class Get(Resource):
     def get(self):
         try:
-            res = worker_states.find({})
-            for x in res:
-                del x['_id']
-
-            returnMap = {
-                'success': True,
-                'data': res
-            }
-
-            return jsonify(returnMap)
+            res = worker_states.find({},{'_id':0})
+            return jsonify(list(res))
         except Exception as e:
             returnMap = {
                 'success': False,
@@ -49,7 +42,23 @@ class Get(Resource):
             return jsonify(returnMap)
 
 
-api.add_resource(Add, "/states/add")
+class Update(Resource):
+    def put(self):
+        try:
+            postedData = request.get_json()
+            worker_states.update({"worker_ip":postedData['worker_ip']},postedData, upsert=True)
+            retunMap = {
+                'success': True
+            }
+            return jsonify(retunMap)
+        except Exception as e:
+            retunMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(retunMap)
+
+api.add_resource(Update, "/states/add")
 api.add_resource(Get, "/states/all")
 
 if __name__ == "__main__":
