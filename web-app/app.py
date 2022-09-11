@@ -43,10 +43,10 @@ class Get(Resource):
 
 
 class Update(Resource):
-    def put(self):
+    def post(self):
         try:
             postedData = request.get_json()
-            worker_states.update({"worker_ip":postedData['worker_ip']},postedData, upsert=True)
+            worker_states.update_one({"worker_ip":postedData['worker_ip']},{"$set":postedData}, upsert=True)
             retunMap = {
                 'success': True
             }
@@ -58,8 +58,8 @@ class Update(Resource):
             }
             return jsonify(retunMap)
 
-api.add_resource(Update, "/states/add")
-api.add_resource(Get, "/states/all")
+api.add_resource(Update, "/workers")
+api.add_resource(Get, "/workers")
 
 if __name__ == "__main__":
     app.run(port=5000, host='0.0.0.0')
