@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -117,6 +119,14 @@ class UpdateAgentScan(Resource):
             agent_scans.update_one({"country_code":postedData['country_code'],
                                       "gsm_code":postedData['gsm_code'],
                                       "current_step":postedData['current_step']},{"$set":postedData}, upsert=True)
+
+            agent_stats.update_one({"agent":postedData["agent"]},{"$set": {
+                "agent":postedData["agent"],
+                "last_info":str(datetime.datetime.now()),
+                "current_country":postedData["country_code"],
+                "current_gsm":postedData["current_gsm"],
+                "current_step":postedData["current_step"]
+            }}, upsert=True)
             retunMap = {
                 'success': True
             }
@@ -128,25 +138,9 @@ class UpdateAgentScan(Resource):
             }
             return jsonify(retunMap)
 
-class UpdateAgentStats(Resource):
-    def post(self):
-        try:
-            postedData = request.get_json()
-            agent_stats.update_one({"agent":postedData["agent"]},{"$set":postedData}, upsert=True)
-            retunMap = {
-                'success': True
-            }
-            return jsonify(retunMap)
-        except Exception as e:
-            retunMap = {
-                'success': False,
-                'error': str(e)
-            }
-            return jsonify(retunMap)
 
 api.add_resource(Update, "/bandits")
 api.add_resource(UpdateAgentScan, "/agents/scans")
-api.add_resource(UpdateAgentStats, "/agents/stats")
 
 api.add_resource(Get, "/bandits")
 api.add_resource(GetAgentScans, "/agents/scans")
