@@ -9,14 +9,19 @@ api = Api(app)
 
 client = MongoClient("mongodb://db:27017")
 selected_db = client.twitter_workers_db
+
 worker_states = selected_db.worker_states
 worker_states.drop()
 worker_states = selected_db.worker_states
 
+tracer_states = selected_db.tracer_states
+tracer_states.drop()
+tracer_states = selected_db.tracer_states
 
-@app.route("/show")
+
+@app.route("/bandits/live")
 def show():
-    return render_template("index.html")
+    return render_template("bandits.html")
 
 class Index(Resource):
     def get(self):
@@ -52,6 +57,18 @@ class Get(Resource):
             }
             return jsonify(returnMap)
 
+class GetTracer(Resource):
+    def get(self):
+        try:
+            res = tracer_states.find({},{'_id':0})
+            return jsonify(list(res))
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
 class Update(Resource):
     def post(self):
         try:
@@ -68,9 +85,29 @@ class Update(Resource):
             }
             return jsonify(retunMap)
 
-api.add_resource(Update, "/workers")
-api.add_resource(Get, "/workers")
+class UpdateTracer(Resource):
+    def post(self):
+        try:
+            postedData = request.get_json()
+            tracer_states.update_one({"country_code":postedData['country_code'],
+                                      "gsm_code":postedData['gsm_code'],
+                                      "current_step":postedData['current_step']},{"$set":postedData}, upsert=True)
+            retunMap = {
+                'success': True
+            }
+            return jsonify(retunMap)
+        except Exception as e:
+            retunMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(retunMap)
 
+api.add_resource(Update, "/bandits")
+api.add_resource(UpdateTracer, "/tracers")
+
+api.add_resource(Get, "/bandits")
+api.add_resource(GetTracer, "/tracers")
 
 if __name__ == "__main__":
     app.run(port=5000, host='0.0.0.0')
