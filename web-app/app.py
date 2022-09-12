@@ -23,9 +23,13 @@ tracer_states = selected_db.tracer_states
 def show():
     return render_template("bandits.html")
 
-class Index(Resource):
-    def get(self):
-        return render_template("bandits.html")
+@app.route("/agents/live")
+def show():
+    return render_template("agents.html")
+
+@app.route("/")
+def show():
+    return render_template("bandits.html")
 
 
 class Add(Resource):
@@ -104,10 +108,10 @@ class UpdateTracer(Resource):
             return jsonify(retunMap)
 
 api.add_resource(Update, "/bandits")
-api.add_resource(UpdateTracer, "/tracers")
+api.add_resource(UpdateTracer, "/agents")
 
 api.add_resource(Get, "/bandits")
-api.add_resource(GetTracer, "/tracers")
+api.add_resource(GetTracer, "/agents")
 
 if __name__ == "__main__":
     app.run(port=5000, host='0.0.0.0')
