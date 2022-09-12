@@ -20,15 +20,15 @@ tracer_states = selected_db.tracer_states
 
 
 @app.route("/bandits/live")
-def show():
+def live_bandits():
     return render_template("bandits.html")
 
 @app.route("/agents/live")
-def show():
+def live_agents():
     return render_template("agents.html")
 
 @app.route("/")
-def show():
+def index():
     return render_template("bandits.html")
 
 
