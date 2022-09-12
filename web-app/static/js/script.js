@@ -1,5 +1,5 @@
 setInterval(function() {
-   fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/workers")
+   fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/bandits")
 .then(function(response){
    return response.json();
 })
