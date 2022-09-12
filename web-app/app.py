@@ -108,10 +108,6 @@ class GetAgentStats(Resource):
             }
             return jsonify(returnMap)
 
-
-
-            return jsonify(retunMap)
-
 class UpdateAgentScan(Resource):
     def post(self):
         try:
@@ -124,7 +120,7 @@ class UpdateAgentScan(Resource):
                 "agent":postedData["agent"],
                 "last_info":str(datetime.datetime.now()),
                 "current_country":postedData["country_code"],
-                "current_gsm":postedData["current_gsm"],
+                "current_gsm":postedData["gsm_code"],
                 "current_step":postedData["current_step"]
             }}, upsert=True)
             retunMap = {
