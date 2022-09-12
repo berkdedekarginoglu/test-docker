@@ -14,9 +14,13 @@ worker_states = selected_db.worker_states
 worker_states.drop()
 worker_states = selected_db.worker_states
 
-tracer_states = selected_db.tracer_states
-tracer_states.drop()
-tracer_states = selected_db.tracer_states
+agent_stats = selected_db.agent_stats
+agent_stats.drop()
+agent_stats = selected_db.agent_stats
+
+agent_scans = selected_db.agent_scans
+agent_scans.drop()
+agent_scans = selected_db.agent_scans
 
 
 @app.route("/bandits/live")
@@ -61,18 +65,6 @@ class Get(Resource):
             }
             return jsonify(returnMap)
 
-class GetTracer(Resource):
-    def get(self):
-        try:
-            res = tracer_states.find({},{'_id':0})
-            return jsonify(list(res))
-        except Exception as e:
-            returnMap = {
-                'success': False,
-                'error': str(e)
-            }
-            return jsonify(returnMap)
-
 class Update(Resource):
     def post(self):
         try:
@@ -87,13 +79,42 @@ class Update(Resource):
                 'success': False,
                 'error': str(e)
             }
+
+#agents
+
+class GetAgentScans(Resource):
+    def get(self):
+        try:
+            res = agent_scans.find({},{'_id':0})
+            return jsonify(list(res))
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+class GetAgentStats(Resource):
+    def get(self):
+        try:
+            res = agent_stats.find({},{'_id':0})
+            return jsonify(list(res))
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+
+
             return jsonify(retunMap)
 
-class UpdateTracer(Resource):
+class UpdateAgentScan(Resource):
     def post(self):
         try:
             postedData = request.get_json()
-            tracer_states.update_one({"country_code":postedData['country_code'],
+            agent_scans.update_one({"country_code":postedData['country_code'],
                                       "gsm_code":postedData['gsm_code'],
                                       "current_step":postedData['current_step']},{"$set":postedData}, upsert=True)
             retunMap = {
@@ -107,11 +128,29 @@ class UpdateTracer(Resource):
             }
             return jsonify(retunMap)
 
+class UpdateAgentStats(Resource):
+    def post(self):
+        try:
+            postedData = request.get_json()
+            agent_stats.update_one({"agent":postedData["agent"]},{"$set":postedData}, upsert=True)
+            retunMap = {
+                'success': True
+            }
+            return jsonify(retunMap)
+        except Exception as e:
+            retunMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(retunMap)
+
 api.add_resource(Update, "/bandits")
-api.add_resource(UpdateTracer, "/agents")
+api.add_resource(UpdateAgentScan, "/agents/scans")
+api.add_resource(UpdateAgentStats, "/agents/stats")
 
 api.add_resource(Get, "/bandits")
-api.add_resource(GetTracer, "/agents")
+api.add_resource(GetAgentScans, "/agents/scans")
+api.add_resource(GetAgentStats, "/agents/stats")
 
 if __name__ == "__main__":
     app.run(port=5000, host='0.0.0.0')
