@@ -25,6 +25,8 @@ let get_data = function() {
                <td class="text-center">${worker.selected_gsm}</td>
                <td class="text-center">${worker.round_time.split('.')[0]} sec</td>
                <td class="text-center">${worker.current_step}</td>
+               <td class="text-center">${worker.proxy_host}</td>
+               <td class="text-center">${worker.proxy_port}</td>
             </tr>
          `;
       };
@@ -55,8 +57,8 @@ let get_data = function() {
                <td class="text-center">${worker.acid_flow_errors}</td>
                <td class="text-center">${worker.access_token_errors}</td>
                <td class="text-center">${worker.password_change_errors}</td>
-               <td class="text-center">${worker.proxy_host}</td>
-               <td class="text-center">${worker.proxy_port}</td>
+               <td class="text-center">${worker.proxy_errors}</td>
+               <td class="text-center">${worker.proxy_exceptions}</td>
             </tr>
          `;
       };
