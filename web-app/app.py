@@ -17,11 +17,8 @@ worker_states.drop()
 worker_states = selected_db.worker_states
 
 agent_stats = selected_db.agent_stats
-agent_stats.drop()
-agent_stats = selected_db.agent_stats
 
-agent_scans = selected_db.agent_scans
-agent_scans.drop()
+
 agent_scans = selected_db.agent_scans
 
 
