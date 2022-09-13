@@ -26,6 +26,17 @@ let create_data = async function() {
          var td8 = document.createElement('td').className("text-center");
          var td9 = document.createElement('td').className("text-center");
          var td10 = document.createElement('td').className("text-center");
+         
+         td1.className("text-center");
+         td2.className("text-center");
+         td3.className("text-center");
+         td4.className("text-center");
+         td5.className("text-center");
+         td6.className("text-center");
+         td7.className("text-center");
+         td8.className("text-center");
+         td9.className("text-center");
+         td10.className("text-center");
 
          var text1 = document.createTextNode(agent.agent);
          var text2 = document.createTextNode(agent.success_rate.split('.')[0]);
@@ -111,7 +122,7 @@ let get_stats = function() {
 }
 
 get_stats();
-get_data();
+create_data();
 
 setInterval(function() {
    get_stats();
