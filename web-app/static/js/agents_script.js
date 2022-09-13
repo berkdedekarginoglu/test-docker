@@ -16,7 +16,7 @@ let create_data = async function() {
             }
          
          var tr = document.createElement('tr');
-         var td1 = document.createElement('td')
+         var td1 = document.createElement('td');
          var td2 = document.createElement('td');
          var td3 = document.createElement('td');
          var td4 = document.createElement('td');
@@ -27,16 +27,16 @@ let create_data = async function() {
          var td9 = document.createElement('td');
          var td10 = document.createElement('td');
          
-         td1.className("text-center");
-         td2.className("text-center");
-         td3.className("text-center");
-         td4.className("text-center");
-         td5.className("text-center");
-         td6.className("text-center");
-         td7.className("text-center");
-         td8.className("text-center");
-         td9.className("text-center");
-         td10.className("text-center");
+         td1.classList.add("text-center");
+         td2.classList.add("text-center");
+         td3.classList.add("text-center");
+         td4.classList.add("text-center");
+         td5.classList.add("text-center");
+         td6.classList.add("text-center");
+         td7.classList.add("text-center");
+         td8.classList.add("text-center");
+         td9.classList.add("text-center");
+         td10.classList.add("text-center");
 
          var text1 = document.createTextNode(agent.agent);
          var text2 = document.createTextNode(agent.success_rate.split('.')[0]);
