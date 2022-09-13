@@ -6,8 +6,8 @@ let get_data = function() {
    .then(function(agents){
       let data_output_scan_flow = document.querySelector("#data-output-scan-flow");
       let scan_out = "";
-
-      for(let agent of agents){
+      let sortedInput = agents.slice().sort((a, b) => parseInt(b.success) - parseInt(a.success));
+      for(let agent of sortedInput){
          scan_out += `
             <tr>
                <td class="text-center">${agent.agent}</td>
