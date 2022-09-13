@@ -79,34 +79,32 @@ let create_data = async function() {
 }
 
 
-let data_filter = function() {
-   filter = document.getElementById("agent_scan_flow_table_filter");
-   table = document.querySelector("#agent_scan_flow_table");
-   tr = table.getElementsByTagName("tr");
+function myFunction() {
+   // Declare variables
    var input, filter, table, tr, td, i, txtValue;
-   if(!input){
-      for (i = 0; i < tr.length; i++) {
-         td = tr[i].getElementsByTagName("td")[6];
-         if (td) {
-           txtValue = td.textContent || td.innerText;
-             tr[i].style.display = "";
-         }       
-       }
-   }
-   else{
+   
+   setInterval(document.getElementById("agent_scan_flow_table_filter"),function() {
+   input = document.getElementById("agent_scan_flow_table_filter");
+   filter = input.value;
+   table = document.getElementById("agent_scan_flow_table");
+   tr = table.getElementsByTagName("tr");
+ 
+   // Loop through all table rows, and hide those who don't match the search query
    for (i = 0; i < tr.length; i++) {
-     td = tr[i].getElementsByTagName("td")[6];
+     td = tr[i].getElementsByTagName("td")[0];
      if (td) {
        txtValue = td.textContent || td.innerText;
-       if (txtValue.indexOf(filter) > -1) {
+       if (txtValue.indexOf(filter) > -1 || !input) {
          tr[i].style.display = "";
        } else {
          tr[i].style.display = "none";
        }
-     }       
+     }
    }
+ },500);
 }
-}
+
+
 
 let get_stats = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/agents/stats")
