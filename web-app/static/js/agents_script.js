@@ -79,7 +79,7 @@ let create_data = async function() {
 }
 
 
-function myFunction() {
+function data_filter() {
    // Declare variables
    var input, filter, table, tr, td, i, txtValue;
    
