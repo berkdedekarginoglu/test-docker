@@ -16,16 +16,16 @@ let create_data = async function() {
             }
          
          var tr = document.createElement('tr');
-         var td1 = document.createElement('td').className("text-center");
-         var td2 = document.createElement('td').className("text-center");
-         var td3 = document.createElement('td').className("text-center");
-         var td4 = document.createElement('td').className("text-center");
-         var td5 = document.createElement('td').className("text-center");
-         var td6 = document.createElement('td').className("text-center");
-         var td7 = document.createElement('td').className("text-center");
-         var td8 = document.createElement('td').className("text-center");
-         var td9 = document.createElement('td').className("text-center");
-         var td10 = document.createElement('td').className("text-center");
+         var td1 = document.createElement('td')
+         var td2 = document.createElement('td');
+         var td3 = document.createElement('td');
+         var td4 = document.createElement('td');
+         var td5 = document.createElement('td');
+         var td6 = document.createElement('td');
+         var td7 = document.createElement('td');
+         var td8 = document.createElement('td');
+         var td9 = document.createElement('td');
+         var td10 = document.createElement('td');
          
          td1.className("text-center");
          td2.className("text-center");
