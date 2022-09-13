@@ -14,6 +14,7 @@ let create_data = async function() {
             item.gsm_code === agent.gsm_code && item.current_step == agent.current_step)){
                continue;
             }
+         agent_data.push(agent);
          
          var tr = document.createElement('tr');
          var td1 = document.createElement('td');
@@ -71,6 +72,8 @@ let create_data = async function() {
          tr.appendChild(td9);
          tr.appendChild(td10);
 
+         data_output_scan_flow.appendChild(tr);
+
       };
    });
 }
@@ -78,9 +81,8 @@ let create_data = async function() {
 
 let data_filter = function() {
    var input, filter, table, tr, td, i, txtValue;
-   if(input){
    filter = document.getElementById("agent_scan_flow_table_filter");
-   table = document.getElementById("agent_scan_flow_table");
+   table = document.getElementById("data-output-scan-flow");
    tr = table.getElementsByTagName("tr");
    for (i = 0; i < tr.length; i++) {
      td = tr[i].getElementsByTagName("td")[6];
@@ -93,7 +95,6 @@ let data_filter = function() {
        }
      }       
    }
- }
 }
 
 let get_stats = function() {
