@@ -5,7 +5,7 @@ let create_data = async function() {
       return response.json();
    })
    .then(function(agents){
-      let data_output_scan_flow = document.querySelector("#data-output-scan-flow");
+      let data_output_scan_flow = document.querySelector("#agent_scan_flow_table");
       let scan_out = "";
       let sortedInput = agents.slice().sort((a, b) => parseInt(b.success) - parseInt(a.success));
       for(let agent of sortedInput){
@@ -80,10 +80,20 @@ let create_data = async function() {
 
 
 let data_filter = function() {
-   var input, filter, table, tr, td, i, txtValue;
    filter = document.getElementById("agent_scan_flow_table_filter");
-   table = document.getElementById("data-output-scan-flow");
+   table = document.querySelector("#agent_scan_flow_table");
    tr = table.getElementsByTagName("tr");
+   var input, filter, table, tr, td, i, txtValue;
+   if(!input){
+      for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName("td")[6];
+         if (td) {
+           txtValue = td.textContent || td.innerText;
+             tr[i].style.display = "";
+         }       
+       }
+   }
+   else{
    for (i = 0; i < tr.length; i++) {
      td = tr[i].getElementsByTagName("td")[6];
      if (td) {
@@ -95,6 +105,7 @@ let data_filter = function() {
        }
      }       
    }
+}
 }
 
 let get_stats = function() {
