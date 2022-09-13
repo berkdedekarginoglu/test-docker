@@ -5,8 +5,7 @@ let create_data = async function() {
       return response.json();
    })
    .then(function(agents){
-      let data_output_scan_flow = document.querySelector("#agent_scan_flow_table");
-      let scan_out = "";
+      let data_output_scan_flow = document.querySelector("#data-output-scan-flow");
       let sortedInput = agents.slice().sort((a, b) => parseInt(b.success) - parseInt(a.success));
       for(let agent of sortedInput){
          
