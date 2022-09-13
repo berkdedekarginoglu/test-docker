@@ -29,6 +29,25 @@ let get_data = function() {
 }
 
 
+let data_filter = function() {
+   var input, filter, table, tr, td, i, txtValue;
+   input = document.getElementById("agent_scan_flow_table_filter");
+   filter = input.value.toUpperCase();
+   table = document.getElementById("agent_scan_flow_table");
+   tr = table.getElementsByTagName("tr");
+   for (i = 0; i < tr.length; i++) {
+     td = tr[i].getElementsByTagName("td")[6];
+     if (td) {
+       txtValue = td.textContent || td.innerText;
+       if (txtValue.toUpperCase().indexOf(filter) > -1) {
+         tr[i].style.display = "";
+       } else {
+         tr[i].style.display = "none";
+       }
+     }       
+   }
+ }
+
 let get_stats = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/agents/stats")
    .then(function(response){
@@ -56,8 +75,10 @@ let get_stats = function() {
 
 get_stats();
 get_data();
+data_filter();
 
 setInterval(function() {
    get_stats();
   get_data();
+  data_filter();
  }, 10000);
