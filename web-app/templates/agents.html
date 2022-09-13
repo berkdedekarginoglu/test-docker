@@ -131,8 +131,11 @@
                 <h4 class="card-title"> Scan Flow</h4>
               </div>
               <div class="card-body">
+                <div class="col-md-6 pr-md-1">
+                    <input type="text" class="form-control" placeholder="Search for country codes .." id="agent_scan_flow_table_filter" onkeyup="myFunction()">
+                </div>
                 <div class="table-responsive">
-                  <table class="table tablesorter " id="">
+                  <table class="table tablesorter " id="agent_scan_flow_table">
                     <thead class=" text-primary">
                       <tr>
                         <th class="text-center">
@@ -304,6 +307,26 @@
         });
       });
     });
+  </script>
+  <script>
+    function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("agent_scan_flow_table_filter");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("agent_scan_flow_table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[6];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
   </script>
  <script src="../static/js/agents_script.js"></script>
 </body>
