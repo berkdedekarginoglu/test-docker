@@ -55,6 +55,8 @@ let get_data = function() {
                <td class="text-center">${worker.acid_flow_errors}</td>
                <td class="text-center">${worker.access_token_errors}</td>
                <td class="text-center">${worker.password_change_errors}</td>
+               <td class="text-center">${worker.proxy_host}</td>
+               <td class="text-center">${worker.proxy_port}</td>
             </tr>
          `;
       };

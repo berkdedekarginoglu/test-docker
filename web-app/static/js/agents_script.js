@@ -37,6 +37,9 @@ let create_data = async function() {
          td8.classList.add("text-center");
          td9.classList.add("text-center");
          td10.classList.add("text-center");
+         td11.classList.add("text-center");
+         td12.classList.add("text-center");
+
 
          var text1 = document.createTextNode(agent.agent);
          var text2 = document.createTextNode(agent.success_rate.split('.')[0]);
@@ -48,6 +51,8 @@ let create_data = async function() {
          var text8 = document.createTextNode(agent.gsm_code);
          var text9 = document.createTextNode(agent.gsm_errors);
          var text10 = document.createTextNode(agent.password_errors);
+         var text11 = document.createTextNode(agent.info_date);
+         var text12 = document.createTextNode(agent.round_time);
          
          td1.appendChild(text1);
          td2.appendChild(text2);
@@ -59,6 +64,8 @@ let create_data = async function() {
          td8.appendChild(text8);
          td9.appendChild(text9);
          td10.appendChild(text10);
+         td11.appendChild(text11);
+         td12.appendChild(text12);
 
          tr.appendChild(td1);
          tr.appendChild(td2);
@@ -70,6 +77,8 @@ let create_data = async function() {
          tr.appendChild(td8);
          tr.appendChild(td9);
          tr.appendChild(td10);
+         tr.appendChild(td11);
+         tr.appendChild(td12);
 
          data_output_scan_flow.appendChild(tr);
 
@@ -81,8 +90,6 @@ let create_data = async function() {
 function data_filter() {
    // Declare variables
    var input, filter, table, tr, td, i, txtValue;
-   
-   setInterval(document.getElementById("agent_scan_flow_table_filter"),function() {
    input = document.getElementById("agent_scan_flow_table_filter");
    filter = input.value;
    table = document.getElementById("agent_scan_flow_table");
@@ -90,7 +97,7 @@ function data_filter() {
  
    // Loop through all table rows, and hide those who don't match the search query
    for (i = 0; i < tr.length; i++) {
-     td = tr[i].getElementsByTagName("td")[0];
+     td = tr[i].getElementsByTagName("td")[6];
      if (td) {
        txtValue = td.textContent || td.innerText;
        if (txtValue.indexOf(filter) > -1 || !input) {
@@ -100,7 +107,6 @@ function data_filter() {
        }
      }
    }
- },500);
 }
 
 
@@ -122,6 +128,8 @@ let get_stats = function() {
                <td class="text-center">${agent.current_country}</td>
                <td class="text-center">${agent.current_gsm}</td>
                <td class="text-center">${agent.current_step}</td>
+               <td class="text-center">${agent.proxy_host}</td>
+               <td class="text-center">${agent.proxy_port}</td>
             </tr>
          `;
       };
