@@ -14,22 +14,21 @@ def index():
     return render_template('bandits-scan-statistics.html')
 
 
-
 ### MONGO ####
 class MongoDB:
-    def __init__(self,db_name,column_name):
-        self.client =  MongoClient('mongodb://db:27017')
+    def __init__(self, db_name, column_name):
+        self.client = MongoClient('mongodb://db:27017')
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
-    def get(self,query):
+    def get(self, query):
         try:
-            res = self.selected_column.find(query,{'_id':0})
+            res = self.selected_column.find(query, {'_id': 0})
 
             return jsonify({
-                'success':True,
-                'data':list(res)
-                })
+                'success': True,
+                'data': list(res)
+            })
 
         except Exception as e:
             returnMap = {
@@ -38,8 +37,7 @@ class MongoDB:
             }
         return jsonify(returnMap)
 
-
-    def insertOne(self,data):  
+    def insertOne(self, data):
         try:
             self.selected_column.insertOne(data)
             return jsonify({
@@ -52,21 +50,17 @@ class MongoDB:
                 'error': str(e)
             })
 
-
-    def updateOne(self,query,data):
+    def updateOne(self, query, data):
         try:
-            self.selected_column.update_one(query,{'$set':data}, upsert=True)
+            self.selected_column.update_one(query, {'$set': data}, upsert=True)
             return jsonify({
                 'success': True
             })
         except Exception as e:
-           return jsonify({
+            return jsonify({
                 'success': False,
                 'error': str(e)
             })
-
-
-
 
 
 ### Bandit-API ###
@@ -74,35 +68,34 @@ class MongoDB:
 
 class BanditsStatistics(Resource):
     def __init__(self):
-        self.mongo = MongoDB('twitter_banditos','bandits_scan_statistics')
+        self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
 
-    def post(self): # Add New Statistic
+    def post(self):  # Add New Statistic
         try:
             postedData = request.get_json()
             result = self.mongo.insertOne(postedData)
 
-            if result.success:
-
+            if result.json['success']:
                 return jsonify({
-                'success': True
+                    'success': True
                 })
 
             return jsonify({
                 'success': False,
-                'error': result['error']
+                'error': result.json['error']
             })
 
         except Exception as e:
             return jsonify({
-                'success':False,
-                'error':str(e)
+                'success': False,
+                'error': str(e)
             })
 
-
-    def get(self): # Get All Statistics
+    def get(self):  # Get All Statistics
         try:
             res = self.mongo.get({})
-            return jsonify(list(res))
+            return jsonify(list(res.json))
+
         except Exception as e:
             returnMap = {
                 'success': False,
@@ -110,33 +103,31 @@ class BanditsStatistics(Resource):
             }
             return jsonify(returnMap)
 
-
-    def put(self): # Update Statistic
+    def put(self):  # Update Statistic
         try:
 
             postedData = request.get_json()
-            result = self.mongo.updateOne({'bandit':postedData['bandit']},postedData['data'])
+            result = self.mongo.updateOne({'bandit': postedData['bandit']}, postedData['data'])
 
-            if result['success']:
-
+            if result.json['success']:
                 return jsonify({
-                    'success':True
+                    'success': True
                 })
 
             return jsonify({
-                'success':False,
-                'error':result['error']
+                'success': False,
+                'error': result.json['error']
             })
 
         except Exception as e:
 
             return jsonify({
-                'success':False,
-                'error':str(e)
+                'success': False,
+                'error': str(e)
             })
 
-api.add_resource(BanditsStatistics, '/api/bandits/statistics')
 
+api.add_resource(BanditsStatistics, '/api/bandits/statistics')
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')
