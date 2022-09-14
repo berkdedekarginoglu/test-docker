@@ -134,10 +134,10 @@ class BanditsStatisticsFilter(Resource):
         try:
             postedData = request.get_json()
             result = self.mongo.get(postedData)
-            #123
+
             if result.json['success']:
                 return jsonify({
-                    'data': jsonify(result.json),
+                    'data': result.json,
                     'success': True
                 })
 
