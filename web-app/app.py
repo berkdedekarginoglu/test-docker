@@ -156,22 +156,6 @@ class BanditsStatistics(Resource):
 class BanditsStatisticsFilter(Resource):
     def __init__(self):
         self.mongo = MongoDB('banditos', 'bandits_scan_statistics')
-    def get(self):  # Get All Statistics
-        try:
-            args = request.args
-
-            limit = int(args['limit'])
-            skip = int(args['skip'])
-
-            res = self.mongo.get({},limit=limit,skip=skip)
-            return jsonify({'success':True,'data':res.json['data']})
-
-        except Exception as e:
-            returnMap = {
-                'success': False,
-                'error': str(e)
-            }
-            return jsonify(returnMap)
     def post(self):  # Get Bandit Filter
         try:
             postedData = request.get_json()
@@ -215,6 +199,23 @@ class JobPoolCheckService(Resource):
 
             if job_signed_result.json["success"]:
                 return jsonify({'success':True,'data':res.json['data']})
+
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+    def get(self):  # Get All Statistics
+        try:
+            args = request.args
+
+            limit = int(args['limit'])
+            skip = int(args['skip'])
+
+            res = self.mongo.get({},limit=limit,skip=skip)
+            return jsonify({'success':True,'data':res.json['data']})
 
         except Exception as e:
             returnMap = {
