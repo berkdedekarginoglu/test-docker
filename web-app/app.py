@@ -21,7 +21,7 @@ class MongoDB:
         self.selected_column = self.selected_db[column_name]
         self.selected_column.drop()
 
-    def get(self, query, limit, skip):
+    def get(self, query, limit=10, skip=0):
         try:
             res = self.selected_column.find(query, {'_id': 0}).limit(limit).skip(skip)
 
