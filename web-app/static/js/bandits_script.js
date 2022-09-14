@@ -33,7 +33,6 @@ let get_data = function() {
          var td9 = document.createElement('td');
          var td10 = document.createElement('td');
          var td11 = document.createElement('td');
-         var td12 = document.createElement('td');
          
          td1.setAttribute("class", "sorting_1 dtr-control");
          td2.setAttribute("class", "sorting_1 dtr-control");
@@ -46,21 +45,19 @@ let get_data = function() {
          td9.setAttribute("class", "sorting_1 dtr-control");
          td10.setAttribute("class", "sorting_1 dtr-control");
          td11.setAttribute("class", "sorting_1 dtr-control");
-         td12.setAttribute("class", "sorting_1 dtr-control");
 
 
-         var text1 = document.createTextNode(agent.agent);
-         var text2 = document.createTextNode(agent.success_rate.split('.')[0]);
-         var text3 = document.createTextNode(agent.success);
-         var text4 = document.createTextNode(agent.password_change_errors);
-         var text5 = document.createTextNode(agent.current_step);
-         var text6 = document.createTextNode(agent.scan_range);
-         var text7 = document.createTextNode(agent.country_code);
-         var text8 = document.createTextNode(agent.gsm_code);
-         var text9 = document.createTextNode(agent.gsm_errors);
-         var text10 = document.createTextNode(agent.password_errors);
-         var text11 = document.createTextNode(agent.date.split('.')[0]);
-         var text12 = document.createTextNode(agent.round_time.split('.')[0]);
+         var text1 = document.createTextNode(bandit.worker_ip);
+         var text2 = document.createTextNode(bandit.total_scan);
+         var text3 = document.createTextNode(bandit.total_success);
+         var text4 = document.createTextNode(bandit.last_success_date);
+         var text5 = document.createTextNode(bandit.success_rate);
+         var text6 = document.createTextNode(bandit.success);
+         var text7 = document.createTextNode(bandit.selected_country);
+         var text8 = document.createTextNode(bandit.selected_gsm);
+         var text9 = document.createTextNode(bandit.round_time);
+         var text10 = document.createTextNode(bandit.current_step);
+         var text11 = document.createTextNode(bandit.proxy_host);
          
          td1.appendChild(text1);
          td2.appendChild(text2);
@@ -73,7 +70,6 @@ let get_data = function() {
          td9.appendChild(text9);
          td10.appendChild(text10);
          td11.appendChild(text11);
-         td12.appendChild(text12);
 
          tr.appendChild(td1);
          tr.appendChild(td2);
@@ -86,7 +82,6 @@ let get_data = function() {
          tr.appendChild(td9);
          tr.appendChild(td10);
          tr.appendChild(td11);
-         tr.appendChild(td12);
 
          bandits_analytics_live_table.appendChild(tr);
 
