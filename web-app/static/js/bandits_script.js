@@ -1,4 +1,7 @@
 bandits_analytics = []
+var table = document.getElementById("bandit-table");
+table.innerHTML = "";
+
 let get_data = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/bandits")
    .then(function(response){
@@ -6,13 +9,6 @@ let get_data = function() {
    })
    .then(function(bandits){
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
-
-      var table = document.getElementById("bandit-table");
-      var rowCount = table.rows.length;
-      for (var i=rowcount-1; i >=0; i--) {
-          table.deleteRow(i);
-      }
-      
 
       for(let bandit of bandits){
          
