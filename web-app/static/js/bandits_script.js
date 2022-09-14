@@ -9,8 +9,9 @@ let get_data = function() {
 
       
       var evenorodd = 0;
-      $('#bandit-table').detach();
-      
+      var Table = document.getElementById("bandit-table");
+Table.innerHTML = "";
+
       for(let bandit of bandits){
          
          if(bandits_analytics.some(obj => obj.worker_ip === bandit.worker_ip)){
