@@ -179,14 +179,27 @@ class BanditsStatisticsFilter(Resource):
                 'error': str(e)
             })
 
-class JobPoolService(Resource):
+class JobPoolCheckService(Resource):
     def __init__(self):
         self.mongo = MongoDB('banditos', 'job_pool')
-
-    def get(self):  # Get All Statistics
+    def post(self):  # Get All Statistics
         try:
             res = self.mongo.get({'is_taken':False},1)
-            return jsonify({'success':True,'data':res.json['data']})
+
+            if len(res.json['data']) < 1:
+                return jsonify({
+                    'success': False,
+                    'error': 'Job not exist'
+                })
+
+            postedData = request.get_json()
+
+            job_signed_result = self.mongo.updateOne({"job_id",res.json['data'][0]["job_id"]},{
+                "job_taken":postedData["bandit"]
+            })
+
+            if job_signed_result.json["success"]:
+                return jsonify({'success':True,'data':res.json['data']})
 
         except Exception as e:
             returnMap = {
@@ -195,11 +208,12 @@ class JobPoolService(Resource):
             }
             return jsonify(returnMap)
 
+class JobPoolCreateService(Resource):
     def post(self):  # Add New Job
         try:
             postedData = request.get_json()
             postedData['job_id'] = str(uuid.uuid4())
-            postedData['job_taken'] = ''
+            postedData['job_taken_from'] = ''
             postedData['is_taken'] = False
             postedData['created_at'] = datetime.datetime.timestamp(datetime.datetime.now())
 
@@ -223,9 +237,13 @@ class JobPoolService(Resource):
 
 
 
+
+
+
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
 api.add_resource(BanditsStatisticsFilter, '/api/bandits/statistics/filter')
-api.add_resource(JobPoolService, '/api/jobs')
+api.add_resource(JobPoolCheckService, '/api/jobs/check')
+api.add_resource(JobPoolCreateService, '/api/jobs')
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')
