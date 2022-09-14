@@ -10,7 +10,7 @@ api = Api(app)
 ### WEB ####
 @app.route('/')
 def index():
-    return render_template('bandits-scan-statistics.html')
+    return render_template('bandits.html')
 
 
 ### MONGO ####
