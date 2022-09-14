@@ -53,7 +53,7 @@ let create_data = async function() {
          var text8 = document.createTextNode(agent.gsm_code);
          var text9 = document.createTextNode(agent.gsm_errors);
          var text10 = document.createTextNode(agent.password_errors);
-         var text11 = document.createTextNode(agent.info_date);
+         var text11 = document.createTextNode(agent.date);
          var text12 = document.createTextNode(agent.round_time);
          
          td1.appendChild(text1);
@@ -126,7 +126,7 @@ let get_stats = function() {
          stats_out += `
             <tr>
                <td class="text-center">${agent.agent}</td>
-               <td class="text-center">${agent.last_info.split('.')[0]}</td>
+               <td class="text-center">${agent.date.split('.')[0]}</td>
                <td class="text-center">${agent.current_country}</td>
                <td class="text-center">${agent.current_gsm}</td>
                <td class="text-center">${agent.current_step}</td>
