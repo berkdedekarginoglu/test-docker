@@ -109,7 +109,6 @@ let get_data = function() {
          `;
       };
       */
-      data_output_rate_flow.innerHTML = rate_out;
       //error_output_rate_flow.innerHTML = error_out;
    });
 }
