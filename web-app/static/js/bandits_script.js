@@ -35,18 +35,18 @@ let get_data = function() {
          var td11 = document.createElement('td');
          var td12 = document.createElement('td');
          
-         td1.classList.add("sorting_1 dtr-control");
-         td2.classList.add("sorting_1 dtr-control");
-         td3.classList.add("sorting_1 dtr-control");
-         td4.classList.add("sorting_1 dtr-control");
-         td5.classList.add("sorting_1 dtr-control");
-         td6.classList.add("sorting_1 dtr-control");
-         td7.classList.add("sorting_1 dtr-control");
-         td8.classList.add("sorting_1 dtr-control");
-         td9.classList.add("sorting_1 dtr-control");
-         td10.classList.add("sorting_1 dtr-control");
-         td11.classList.add("sorting_1 dtr-control");
-         td12.classList.add("sorting_1 dtr-control");
+         td1.setAttribute("class", "sorting_1 dtr-control");
+         td2.setAttribute("class", "sorting_1 dtr-control");
+         td3.setAttribute("class", "sorting_1 dtr-control");
+         td4.setAttribute("class", "sorting_1 dtr-control");
+         td5.setAttribute("class", "sorting_1 dtr-control");
+         td6.setAttribute("class", "sorting_1 dtr-control");
+         td7.setAttribute("class", "sorting_1 dtr-control");
+         td8.setAttribute("class", "sorting_1 dtr-control");
+         td9.setAttribute("class", "sorting_1 dtr-control");
+         td10.setAttribute("class", "sorting_1 dtr-control");
+         td11.setAttribute("class", "sorting_1 dtr-control");
+         td12.setAttribute("class", "sorting_1 dtr-control");
 
 
          var text1 = document.createTextNode(agent.agent);
