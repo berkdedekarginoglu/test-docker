@@ -209,6 +209,9 @@ class JobPoolCheckService(Resource):
             return jsonify(returnMap)
 
 class JobPoolCreateService(Resource):
+
+    def __init__(self):
+        self.mongo = MongoDB('banditos', 'job_pool')
     def post(self):  # Add New Job
         try:
             postedData = request.get_json()
