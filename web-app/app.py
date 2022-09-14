@@ -94,7 +94,7 @@ class BanditsStatistics(Resource):
     def get(self):  # Get All Statistics
         try:
             res = self.mongo.get({})
-            return jsonify(res.json)
+            return jsonify({'success':True,'data':res.json})
 
         except Exception as e:
             returnMap = {
@@ -130,7 +130,7 @@ class BanditsStatisticsFilter(Resource):
     def __init__(self):
         self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
 
-    def post(self):  # Add New Statistic
+    def post(self):  # Get Bandit Filter
         try:
             postedData = request.get_json()
             result = self.mongo.get(postedData)
