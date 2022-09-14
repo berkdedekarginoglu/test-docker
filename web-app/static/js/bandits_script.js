@@ -17,7 +17,7 @@ let get_data = function() {
          <tr role="row" class="odd">
          <td class="dtr-control sorting_1" tabindex="0">${bandit.bandit}</td>
          <td class="sorting_1" tabindex="0">${bandit.total_scan}</td>
-         <td class="sorting_1" tabindex="0">${bandit.total_success}}</td>
+         <td class="sorting_1" tabindex="0">${bandit.total_success}</td>
          <td class="sorting_1" tabindex="0">${bandit.last_success_date}</td>
          <td class="sorting_1" tabindex="0">${bandit.success_rate}</td>
          <td class="sorting_1" tabindex="0">${bandit.success}</td>
@@ -32,7 +32,7 @@ let get_data = function() {
       }
 
       bandits_analytics_live_table.innerHTML = outData;
-      
+
       /*
       for(let worker of workers){
          error_out += `
