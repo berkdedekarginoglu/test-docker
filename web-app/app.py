@@ -1,4 +1,6 @@
 import datetime
+import uuid
+
 from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -67,7 +69,7 @@ class MongoDB:
 
 class BanditsStatistics(Resource):
     def __init__(self):
-        self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
+        self.mongo = MongoDB('banditos', 'bandits_scan_statistics')
 
     def post(self):  # Add New Statistic
         try:
@@ -151,10 +153,9 @@ class BanditsStatistics(Resource):
                 'success': False,
                 'error': str(e)
             })
-
 class BanditsStatisticsFilter(Resource):
     def __init__(self):
-        self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
+        self.mongo = MongoDB('banditos', 'bandits_scan_statistics')
 
     def post(self):  # Get Bandit Filter
         try:
@@ -178,8 +179,53 @@ class BanditsStatisticsFilter(Resource):
                 'error': str(e)
             })
 
+class JobPoolService(Resource):
+    def __init__(self):
+        self.mongo = MongoDB('banditos', 'job_pool')
+
+    def get(self):  # Get All Statistics
+        try:
+            res = self.mongo.get({'is_taken':False},1)
+            return jsonify({'success':True,'data':res.json['data']})
+
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+    def post(self):  # Add New Job
+        try:
+            postedData = request.get_json()
+            postedData['job_id'] = str(uuid.uuid4())
+            postedData['job_taken'] = ''
+            postedData['is_taken'] = False
+            postedData['created_at'] = datetime.datetime.timestamp(datetime.datetime.now())
+
+            result = self.mongo.insertOne(postedData)
+
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error': result.json['error']
+            })
+
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e)
+            })
+
+
+
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
 api.add_resource(BanditsStatisticsFilter, '/api/bandits/statistics/filter')
+api.add_resource(JobPoolService, '/api/jobs')
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')

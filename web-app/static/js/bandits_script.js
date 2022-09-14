@@ -33,25 +33,6 @@ let get_data = function() {
 
       bandits_analytics_live_table.innerHTML = outData;
 
-      /*
-      for(let worker of workers){
-         error_out += `
-            <tr>
-               <td class="text-center">${worker.worker_ip}</td>
-               <td class="text-center">${worker.guest_token_errors}</td>
-               <td class="text-center">${worker.login_flow_errors}</td>
-               <td class="text-center">${worker.username_errors}</td>
-               <td class="text-center">${worker.password_errors}</td>
-               <td class="text-center">${worker.acid_flow_errors}</td>
-               <td class="text-center">${worker.access_token_errors}</td>
-               <td class="text-center">${worker.password_change_errors}</td>
-               <td class="text-center">${worker.proxy_errors}</td>
-               <td class="text-center">${worker.exceptions}</td>
-            </tr>
-         `;
-      };
-      */
-      //error_output_rate_flow.innerHTML = error_out;
    });
 }
 
