@@ -3,7 +3,6 @@ from unittest import result
 from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
-import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -80,7 +79,7 @@ class BanditsStatistics(Resource):
     def post(self): # Add New Statistic
         try:
             postedData = request.get_json()
-            result = json.loads(self.mongo.insertOne(postedData))
+            result = self.mongo.insertOne(postedData)
 
             if result['success']:
 
@@ -116,7 +115,7 @@ class BanditsStatistics(Resource):
         try:
 
             postedData = request.get_json()
-            result = json.loads(self.mongo.updateOne({'bandit':postedData['bandit']},postedData['data']))
+            result = self.mongo.updateOne({'bandit':postedData['bandit']},postedData['data'])
 
             if result['success']:
 
