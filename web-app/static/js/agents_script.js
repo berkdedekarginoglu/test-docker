@@ -53,8 +53,8 @@ let create_data = async function() {
          var text8 = document.createTextNode(agent.gsm_code);
          var text9 = document.createTextNode(agent.gsm_errors);
          var text10 = document.createTextNode(agent.password_errors);
-         var text11 = document.createTextNode(agent.date);
-         var text12 = document.createTextNode(agent.round_time);
+         var text11 = document.createTextNode(agent.date.split('.')[0]);
+         var text12 = document.createTextNode(agent.round_time.split('.')[0]);
          
          td1.appendChild(text1);
          td2.appendChild(text2);
