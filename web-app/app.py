@@ -130,10 +130,10 @@ class BanditsStatisticsFilter(Resource):
     def __init__(self):
         self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
 
-    def post(self,query):  # Add New Statistic
+    def post(self):  # Add New Statistic
         try:
             postedData = request.get_json()
-            result = self.mongo.get(query,postedData)
+            result = self.mongo.get(postedData)
 
             if result.json['success']:
                 return jsonify({
