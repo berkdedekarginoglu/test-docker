@@ -20,7 +20,7 @@ class MongoDB:
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
-    def get(self, query, limit=10, skip=0):
+    def get(self, query, limit, skip):
         try:
             res = self.selected_column.find(query, {'_id': 0}).limit(limit).skip(skip)
 
@@ -108,7 +108,7 @@ class BanditsStatistics(Resource):
             limit = int(args['limit'])
             skip = int(args['skip'])
 
-            res = self.mongo.get({})
+            res = self.mongo.get({},limit=limit,skip=skip)
             return jsonify({'success':True,'data':res.json['data']})
 
         except Exception as e:
