@@ -1,6 +1,4 @@
 import datetime
-from calendar import calendar
-from unittest import result
 from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -22,9 +20,9 @@ class MongoDB:
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
-    def get(self, query):
+    def get(self, query, limit=10, skip=0):
         try:
-            res = self.selected_column.find(query, {'_id': 0})
+            res = self.selected_column.find(query, {'_id': 0}).limit(limit).skip(skip)
 
             return jsonify({
                 'success': True,
@@ -105,6 +103,11 @@ class BanditsStatistics(Resource):
 
     def get(self):  # Get All Statistics
         try:
+            args = request.args
+
+            limit = int(args['limit'])
+            skip = int(args['skip'])
+
             res = self.mongo.get({})
             return jsonify({'success':True,'data':res.json['data']})
 
