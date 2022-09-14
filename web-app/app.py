@@ -18,7 +18,7 @@ def index():
 
 ### MONGO ####
 class MongoDB:
-    def __init__(self,db_name,column_name) -> None:
+    def __init__(self,db_name,column_name):
         self.client =  MongoClient('mongodb://db:27017')
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
@@ -102,7 +102,7 @@ class BanditsStatistics(Resource):
 
     def get(self): # Get All Statistics
         try:
-            res = self.mongo.get({},{'_id':0})
+            res = self.mongo.get({})
             return jsonify(list(res))
 
         except Exception as e:
@@ -117,9 +117,9 @@ class BanditsStatistics(Resource):
         try:
 
             postedData = request.get_json()
-            result = json.loads(self.mongo.updateOne({"bandit":postedData["bandit"]},postedData["data"]))
+            result = json.loads(self.mongo.updateOne({'bandit':postedData['bandit']},postedData['data']))
 
-            if result["success"]:
+            if result['success']:
 
                 return jsonify({
                     'success':True
@@ -133,8 +133,8 @@ class BanditsStatistics(Resource):
         except Exception as e:
 
             return jsonify({
-                "success":False,
-                "error":str(e)
+                'success':False,
+                'error':str(e)
             })
 
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
