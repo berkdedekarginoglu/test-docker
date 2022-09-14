@@ -73,6 +73,15 @@ class BanditsStatistics(Resource):
     def post(self):  # Add New Statistic
         try:
             postedData = request.get_json()
+
+            isExist = self.mongo.get({'bandit':postedData['bandit']})
+            if isExist.json['success']:
+
+                return jsonify({
+                    'success':False,
+                    'error':'User exist'
+                })
+            
             result = self.mongo.insertOne(postedData)
 
             if result.json['success']:
