@@ -120,7 +120,9 @@ class UpdateAgentScan(Resource):
                 "last_info":str(datetime.datetime.now()),
                 "current_country":postedData["country_code"],
                 "current_gsm":postedData["gsm_code"],
-                "current_step":postedData["current_step"]
+                "current_step":postedData["current_step"],
+                "proxy_host":postedData["proxy_host"],
+                "proxy_port":postedData["proxy_port"]
             }}, upsert=True)
             retunMap = {
                 'success': True
