@@ -79,7 +79,7 @@ class BanditsStatistics(Resource):
             if len(isExist.json['data']) > 0:
                 return jsonify({
                     'success':False,
-                    'error':'User exist'
+                    'error':'Bandit exist'
                 })
 
             result = self.mongo.insertOne(postedData)
@@ -116,7 +116,7 @@ class BanditsStatistics(Resource):
         try:
 
             postedData = request.get_json()
-            result = self.mongo.updateOne({'bandit': postedData['bandit']}, postedData['data'])
+            result = self.mongo.updateOne({'bandit': postedData['bandit']}, postedData)
 
             if result.json['success']:
                 return jsonify({
