@@ -3,13 +3,13 @@ bandits_analytics = []
 let get_data = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/api/bandits/statistics?limit=105&skip=0")
    .then(function(response){
-      var response_json = response.json();
-      return response_json['data'];
+     return response.json();
+
    })
    .then(function(bandits){
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
       let evenorodd = 0;
-      for(let bandit of bandits){
+      for(let bandit of bandits["data"]){
          
          if(bandits_analytics.some(obj => obj.worker_ip === bandit.worker_ip)){
             continue;
