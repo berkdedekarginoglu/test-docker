@@ -76,7 +76,7 @@ class BanditsStatistics(Resource):
 
             isExist = self.mongo.get({'bandit':postedData['bandit']})
 
-            if len(isExist.json['data']) > 1:
+            if len(isExist.json['data']) > 0:
                 return jsonify({
                     'success':False,
                     'error':'User exist'
@@ -86,8 +86,7 @@ class BanditsStatistics(Resource):
 
             if result.json['success']:
                 return jsonify({
-                    'success': True,
-                    'test':isExist.json['data']
+                    'success': True
                 })
 
             return jsonify({
