@@ -26,6 +26,8 @@ let create_data = async function() {
          var td8 = document.createElement('td');
          var td9 = document.createElement('td');
          var td10 = document.createElement('td');
+         var td11 = document.createElement('td');
+         var td12 = document.createElement('td');
          
          td1.classList.add("text-center");
          td2.classList.add("text-center");

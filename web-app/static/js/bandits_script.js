@@ -58,7 +58,7 @@ let get_data = function() {
                <td class="text-center">${worker.access_token_errors}</td>
                <td class="text-center">${worker.password_change_errors}</td>
                <td class="text-center">${worker.proxy_errors}</td>
-               <td class="text-center">${worker.proxy_exceptions}</td>
+               <td class="text-center">${worker.exceptions}</td>
             </tr>
          `;
       };
