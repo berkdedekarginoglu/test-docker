@@ -137,7 +137,7 @@ class BanditsStatisticsFilter(Resource):
 
             if result.json['success']:
                 return jsonify({
-                    'data': result.json,
+                    'data': result.json['data'],
                     'success': True
                 })
 
