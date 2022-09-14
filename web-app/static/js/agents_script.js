@@ -140,6 +140,34 @@ let get_stats = function() {
    });
 }
 
+
+let set_agent_state = function() {
+   fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/agents/stats")
+   .then(function(response){
+      return response.json();
+   })
+   .then(function(agents){
+      let data_output_stats_flow = document.querySelector("#data-output-stats-flow");
+      let stats_out = "";
+
+      for(let agent of agents){
+         stats_out += `
+            <tr>
+               <td class="text-center">${agent.agent}</td>
+               <td class="text-center">${agent.last_info.split('.')[0]}</td>
+               <td class="text-center">${agent.current_country}</td>
+               <td class="text-center">${agent.current_gsm}</td>
+               <td class="text-center">${agent.current_step}</td>
+               <td class="text-center">${agent.proxy_host}</td>
+               <td class="text-center">${agent.proxy_port}</td>
+            </tr>
+         `;
+      };
+   
+      data_output_stats_flow.innerHTML = stats_out;
+   });
+}
+
 get_stats();
 create_data();
 

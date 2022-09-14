@@ -66,7 +66,7 @@ class Get(Resource):
             }
             return jsonify(returnMap)
 
-class Update(Resource):
+class UpdateBanditScan(Resource):
     def post(self):
         try:
             postedData = request.get_json()
@@ -135,9 +135,28 @@ class UpdateAgentScan(Resource):
             }
             return jsonify(retunMap)
 
+class UpdateAgentState(Resource):
+    def post(self):
+        try:
+            postedData = request.get_json()
 
-api.add_resource(Update, "/bandits")
+            agent_stats.update_one({"agent":postedData["agent"]},{"$set": {
+               "state":postedData["state"]
+            }}, upsert=True)
+            retunMap = {
+                'success': True
+            }
+            return jsonify(retunMap)
+        except Exception as e:
+            retunMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(retunMap)
+
+api.add_resource(UpdateBanditScan, "/bandits")
 api.add_resource(UpdateAgentScan, "/agents/scans")
+api.add_resource(UpdateAgentScan, "/agents/state")
 
 api.add_resource(Get, "/bandits")
 api.add_resource(GetAgentScans, "/agents/scans")

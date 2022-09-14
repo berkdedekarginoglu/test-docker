@@ -3,49 +3,95 @@ let get_data = function() {
    .then(function(response){
       return response.json();
    })
-   .then(function(workers){
-      let data_output_rate_flow = document.querySelector("#data-output-rate-flow");
-      let rate_out = "";
-      let error_output_rate_flow = document.querySelector("#data-output-error-flow");
-      let error_out = "";
-      let total_success = 0
-      let total_scan = 0
-      for(let worker of workers){
-         total_success = total_success + parseInt(worker.total_success)
-         total_scan = total_scan + parseInt(worker.total_scan)
-         rate_out += `
-            <tr>
-               <td class="text-center">${worker.worker_ip}</td>
-               <td class="text-center">${worker.total_scan}</td>
-               <td class="text-center">${worker.total_success}</td>
-               <td class="text-center">${worker.last_success_date.split('.')[0]}</td>
-               <td class="text-center">${worker.success_rate.split('.')[0]}</td>
-               <td class="text-center">${worker.success}</td>
-               <td class="text-center">+${worker.selected_country}</td>
-               <td class="text-center">${worker.selected_gsm}</td>
-               <td class="text-center">${worker.round_time.split('.')[0]} sec</td>
-               <td class="text-center">${worker.current_step}</td>
-               <td class="text-center">${worker.proxy_host}</td>
-               <td class="text-center">${worker.proxy_port}</td>
-            </tr>
-         `;
+   .then(function(bandits){
+      let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
+
+      var evenorodd = 0;
+      
+      for(let bandit of bandits){
+
+         var tr = document.createElement('tr');
+         tr.setAttribute("role", "row");
+
+         if(evenorodd===0){
+            tr.classList.add("even");
+            evenorodd = evenorodd + 1;
+         }
+         else{
+            tr.classList.add("odd");
+            evenorodd = 0;
+         }
+
+         var td1 = document.createElement('td');
+         var td2 = document.createElement('td');
+         var td3 = document.createElement('td');
+         var td4 = document.createElement('td');
+         var td5 = document.createElement('td');
+         var td6 = document.createElement('td');
+         var td7 = document.createElement('td');
+         var td8 = document.createElement('td');
+         var td9 = document.createElement('td');
+         var td10 = document.createElement('td');
+         var td11 = document.createElement('td');
+         var td12 = document.createElement('td');
+         
+         td1.classList.add("sorting_1 dtr-control");
+         td2.classList.add("sorting_1 dtr-control");
+         td3.classList.add("sorting_1 dtr-control");
+         td4.classList.add("sorting_1 dtr-control");
+         td5.classList.add("sorting_1 dtr-control");
+         td6.classList.add("sorting_1 dtr-control");
+         td7.classList.add("sorting_1 dtr-control");
+         td8.classList.add("sorting_1 dtr-control");
+         td9.classList.add("sorting_1 dtr-control");
+         td10.classList.add("sorting_1 dtr-control");
+         td11.classList.add("sorting_1 dtr-control");
+         td12.classList.add("sorting_1 dtr-control");
+
+
+         var text1 = document.createTextNode(agent.agent);
+         var text2 = document.createTextNode(agent.success_rate.split('.')[0]);
+         var text3 = document.createTextNode(agent.success);
+         var text4 = document.createTextNode(agent.password_change_errors);
+         var text5 = document.createTextNode(agent.current_step);
+         var text6 = document.createTextNode(agent.scan_range);
+         var text7 = document.createTextNode(agent.country_code);
+         var text8 = document.createTextNode(agent.gsm_code);
+         var text9 = document.createTextNode(agent.gsm_errors);
+         var text10 = document.createTextNode(agent.password_errors);
+         var text11 = document.createTextNode(agent.date.split('.')[0]);
+         var text12 = document.createTextNode(agent.round_time.split('.')[0]);
+         
+         td1.appendChild(text1);
+         td2.appendChild(text2);
+         td3.appendChild(text3);
+         td4.appendChild(text4);
+         td5.appendChild(text5);
+         td6.appendChild(text6);
+         td7.appendChild(text7);
+         td8.appendChild(text8);
+         td9.appendChild(text9);
+         td10.appendChild(text10);
+         td11.appendChild(text11);
+         td12.appendChild(text12);
+
+         tr.appendChild(td1);
+         tr.appendChild(td2);
+         tr.appendChild(td3);
+         tr.appendChild(td4);
+         tr.appendChild(td5);
+         tr.appendChild(td6);
+         tr.appendChild(td7);
+         tr.appendChild(td8);
+         tr.appendChild(td9);
+         tr.appendChild(td10);
+         tr.appendChild(td11);
+         tr.appendChild(td12);
+
+         bandits_analytics_live_table.appendChild(tr);
+
       };
-   
-            rate_out += `
-            <tr>
-               <td class="text-center"><b>Total</b></td>
-               <td class="text-center">${total_scan}</td>
-               <td class="text-center">${total_success}</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-               <td class="text-center">-</td>
-            </tr>
-         `;
-   
+      /*
       for(let worker of workers){
          error_out += `
             <tr>
@@ -62,9 +108,9 @@ let get_data = function() {
             </tr>
          `;
       };
-   
+      */
       data_output_rate_flow.innerHTML = rate_out;
-      error_output_rate_flow.innerHTML = error_out;
+      //error_output_rate_flow.innerHTML = error_out;
    });
 }
 
