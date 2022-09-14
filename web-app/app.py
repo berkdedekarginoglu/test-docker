@@ -82,6 +82,8 @@ class BanditsStatistics(Resource):
                     'error':'Bandit exist'
                 })
 
+            postedData['created_at'] = datetime.datetime.now()
+
             result = self.mongo.insertOne(postedData)
 
             if result.json['success']:
@@ -116,6 +118,17 @@ class BanditsStatistics(Resource):
         try:
 
             postedData = request.get_json()
+
+            isExist = self.mongo.get({'bandit': postedData['bandit']})
+
+            if len(isExist.json['data']) < 1:
+                return jsonify({
+                    'success':False,
+                    'error':'User does not exist'
+                })
+
+            postedData['updated_at'] = datetime.datetime.now()
+
             result = self.mongo.updateOne({'bandit': postedData['bandit']}, postedData)
 
             if result.json['success']:
