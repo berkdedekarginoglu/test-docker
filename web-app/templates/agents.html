@@ -21,12 +21,20 @@
  <script src="../static/js/agents_script.js"></script>
 <body class="">
   <div class="wrapper">
-    <div class="sidebar bg-dark" data-color="black">
-      <div class="sidebar-wrapper">
+    <div class="sidebar" data="blue">
+      <div class="sidebar-wrapper ps">
+        <div class="logo">
+          <a href="javascript:void(0)" class="simple-text logo-mini">
+            TW
+          </a>
+          <a href="javascript:void(0)" class="simple-text logo-normal">
+            Twitter Banditos
+          </a>
+        </div>
         <ul class="nav">
             <a href="/bandits/live">
               <i class="tim-icons icon-single-02"></i>
-              <p>Bandits</p>
+               <p>Bandits</p>
             </a>
         </ul>
         <ul class="nav">
@@ -137,8 +145,8 @@
                 <h4 class="card-title"> Scan Flow</h4>
               </div>
               <div class="card-body">
-                <div class="col-md-6 pr-md-1">
-                    <input type="text" class="form-control" placeholder="Search for country codes .." id="agent_scan_flow_table_filter" onkeyup="data_filter()">
+                <div class="col-md-4 pr-md-1">
+                    <input type="text" class="form-control" placeholder="Search for country codes" id="agent_scan_flow_table_filter" onkeyup="data_filter()">
                 </div>
                 <br>
                 <div class="table-responsive">
