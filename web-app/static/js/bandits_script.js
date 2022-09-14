@@ -7,10 +7,10 @@ let get_data = function() {
 
    })
    .then(function(bandits){
-      console.log(bandits);
+      console.log(bandits["data"]);
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
       let evenorodd = 0;
-      for(let bandit of JSON.parse(bandits)["data"]){
+      for(let bandit of bandits["data"]){
          
          if(bandits_analytics.some(obj => obj.worker_ip === bandit.worker_ip)){
             continue;
