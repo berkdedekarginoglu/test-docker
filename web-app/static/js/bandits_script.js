@@ -7,10 +7,12 @@ let get_data = function() {
    .then(function(bandits){
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
 
+      var table = document.getElementById("bandit-table");
+      var rowCount = table.rows.length;
+      for (var i=rowcount-1; i >=0; i--) {
+          table.deleteRow(i);
+      }
       
-      var evenorodd = 0;
-      var Table = document.getElementById("bandit-table");
-Table.innerHTML = "";
 
       for(let bandit of bandits){
          
