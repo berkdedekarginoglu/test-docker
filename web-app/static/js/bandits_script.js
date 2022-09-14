@@ -3,7 +3,8 @@ bandits_analytics = []
 let get_data = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/api/bandits/statistics?limit=105&skip=0")
    .then(function(response){
-      return (response.json()).data;
+      var response_json = response.json();
+      return response_json['data'];
    })
    .then(function(bandits){
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
