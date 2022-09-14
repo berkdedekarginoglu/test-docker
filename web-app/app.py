@@ -82,7 +82,7 @@ class BanditsStatistics(Resource):
                     'error':'Bandit exist'
                 })
 
-            postedData['created_at'] = datetime.datetime.now()
+            postedData['created_at'] = datetime.datetime.timestamp(datetime.datetime.now())
 
             result = self.mongo.insertOne(postedData)
 
@@ -127,7 +127,7 @@ class BanditsStatistics(Resource):
                     'error':'User does not exist'
                 })
 
-            postedData['updated_at'] = datetime.datetime.now()
+            postedData['updated_at'] = datetime.datetime.timestamp(datetime.datetime.now())
 
             result = self.mongo.updateOne({'bandit': postedData['bandit']}, postedData)
 
