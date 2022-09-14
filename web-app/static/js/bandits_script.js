@@ -1,6 +1,4 @@
 bandits_analytics = []
-var table = document.getElementById("bandit-table");
-table.innerHTML = "";
 
 let get_data = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/bandits")
@@ -13,7 +11,7 @@ let get_data = function() {
       for(let bandit of bandits){
          
          if(bandits_analytics.some(obj => obj.worker_ip === bandit.worker_ip)){
-            
+            continue;
          }
 
          var tr = document.createElement('tr');
@@ -56,12 +54,12 @@ let get_data = function() {
          var text1 = document.createTextNode(bandit.worker_ip);
          var text2 = document.createTextNode(bandit.total_scan);
          var text3 = document.createTextNode(bandit.total_success);
-         var text4 = document.createTextNode(bandit.last_success_date);
-         var text5 = document.createTextNode(bandit.success_rate);
+         var text4 = document.createTextNode(bandit.last_success_date.split('.')[0]);
+         var text5 = document.createTextNode(bandit.success_rate.split('.')[0]);
          var text6 = document.createTextNode(bandit.success);
          var text7 = document.createTextNode(bandit.selected_country);
          var text8 = document.createTextNode(bandit.selected_gsm);
-         var text9 = document.createTextNode(bandit.round_time);
+         var text9 = document.createTextNode(bandit.round_time.split('.')[0]);
          var text10 = document.createTextNode(bandit.current_step);
          var text11 = document.createTextNode(bandit.proxy_host);
          
