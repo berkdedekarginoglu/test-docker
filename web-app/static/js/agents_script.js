@@ -126,7 +126,7 @@ let get_stats = function() {
          stats_out += `
             <tr>
                <td class="text-center">${agent.agent}</td>
-               <td class="text-center">${agent.date.split('.')[0]}</td>
+               <td class="text-center">${agent.last_info.split('.')[0]}</td>
                <td class="text-center">${agent.current_country}</td>
                <td class="text-center">${agent.current_gsm}</td>
                <td class="text-center">${agent.current_step}</td>
