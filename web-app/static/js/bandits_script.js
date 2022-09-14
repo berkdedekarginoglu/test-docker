@@ -1,3 +1,4 @@
+bandits_analytics = []
 let get_data = function() {
    fetch("http://ec2-3-251-92-78.eu-west-1.compute.amazonaws.com/bandits")
    .then(function(response){
@@ -6,9 +7,15 @@ let get_data = function() {
    .then(function(bandits){
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
 
+      
       var evenorodd = 0;
+      $('#bandit-table').detach();
       
       for(let bandit of bandits){
+         
+         if(bandits_analytics.some(obj => obj.worker_ip === bandit.worker_ip)){
+            
+         }
 
          var tr = document.createElement('tr');
          tr.setAttribute("role", "row");
