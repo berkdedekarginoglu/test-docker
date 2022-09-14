@@ -39,7 +39,7 @@ class MongoDB:
 
     def insertOne(self, data):
         try:
-            self.selected_column.insertOne(data)
+            self.selected_column.insert_one(data)
             return jsonify({
                 'success': True
             })
