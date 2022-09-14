@@ -7,6 +7,7 @@ let get_data = function() {
 
    })
    .then(function(bandits){
+      console.log(bandits);
       let bandits_analytics_live_table = document.querySelector("#bandits-analytics-live");
       let evenorodd = 0;
       for(let bandit of JSON.parse(bandits)["data"]){
