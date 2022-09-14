@@ -94,7 +94,7 @@ class BanditsStatistics(Resource):
     def get(self):  # Get All Statistics
         try:
             res = self.mongo.get({})
-            return jsonify({'success':True,'data':res.json})
+            return jsonify({'success':True,'data':res.json['data']})
 
         except Exception as e:
             returnMap = {
