@@ -81,7 +81,7 @@ class BanditsStatistics(Resource):
             postedData = request.get_json()
             result = self.mongo.insertOne(postedData)
 
-            if result['success']:
+            if result.success:
 
                 return jsonify({
                 'success': True
