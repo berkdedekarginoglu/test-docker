@@ -126,8 +126,33 @@ class BanditsStatistics(Resource):
                 'error': str(e)
             })
 
+class BanditsStatisticsFilter(Resource):
+    def __init__(self):
+        self.mongo = MongoDB('twitter_banditos', 'bandits_scan_statistics')
+
+    def post(self,query):  # Add New Statistic
+        try:
+            postedData = request.get_json()
+            result = self.mongo.get(query,postedData)
+
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error': result.json['error']
+            })
+
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e)
+            })
 
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
+api.add_resource(BanditsStatisticsFilter, '/api/bandits/statistics/filter')
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')
