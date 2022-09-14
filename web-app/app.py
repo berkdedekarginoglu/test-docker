@@ -194,7 +194,7 @@ class JobPoolCheckService(Resource):
 
             postedData = request.get_json()
 
-            job_signed_result = self.mongo.updateOne({"job_id",res.json['data'][0]["job_id"]},{
+            job_signed_result = self.mongo.updateOne({"job_id":res.json['data'][0]["job_id"]},{
                 "job_taken":postedData["bandit"]
             })
 
@@ -237,9 +237,6 @@ class JobPoolCreateService(Resource):
                 'success': False,
                 'error': str(e)
             })
-
-
-
 
 
 
