@@ -194,7 +194,9 @@ class JobPoolCheckService(Resource):
             postedData = request.get_json()
 
             job_signed_result = self.mongo.updateOne({"job_id":res.json['data'][0]["job_id"]},{
-                "job_taken":postedData["bandit"]
+                "signed_to":postedData["bandit"],
+                "signed_date":datetime.datetime.timestamp(datetime.datetime.now()),
+                "is_taken":True
             })
 
             if job_signed_result.json["success"]:
@@ -224,6 +226,35 @@ class JobPoolCheckService(Resource):
             }
             return jsonify(returnMap)
 
+class JobPoolCompleteService(Resource):
+    def __init__(self):
+        self.mongo = MongoDB('banditos', 'job_pool')
+    def post(self):  # Get All Statistics
+        try:
+            postedData = request.get_json()
+            res = self.mongo.get({'is_taken':True,'bandit':postedData['bandit']},1)
+
+            if len(res.json['data']) < 1:
+                return jsonify({
+                    'success': False,
+                    'error': 'Job not exist'
+                })
+
+            job_signed_result = self.mongo.updateOne({"job_id":res.json['data'][0]["job_id"]},{
+                "is_completed":True,
+                "completed_date":datetime.datetime.timestamp(datetime.datetime.now())
+            })
+
+            if job_signed_result.json["success"]:
+                return jsonify({'success':True,'data':res.json['data']})
+
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
 class JobPoolCreateService(Resource):
 
     def __init__(self):
@@ -232,9 +263,9 @@ class JobPoolCreateService(Resource):
         try:
             postedData = request.get_json()
             postedData['job_id'] = str(uuid.uuid4())
-            postedData['job_taken_from'] = ''
             postedData['is_taken'] = False
-            postedData['created_at'] = datetime.datetime.timestamp(datetime.datetime.now())
+            postedData['created_from'] = postedData["agent"]
+            postedData['created_date'] = datetime.datetime.timestamp(datetime.datetime.now())
 
             result = self.mongo.insertOne(postedData)
 
@@ -259,6 +290,7 @@ class JobPoolCreateService(Resource):
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
 api.add_resource(BanditsStatisticsFilter, '/api/bandits/statistics/filter')
 api.add_resource(JobPoolCheckService, '/api/jobs/check')
+api.add_resource(JobPoolCompleteService, '/api/jobs/complete')
 api.add_resource(JobPoolCreateService, '/api/jobs')
 
 if __name__ == '__main__':
