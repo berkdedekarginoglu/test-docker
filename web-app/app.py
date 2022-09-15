@@ -1,6 +1,5 @@
 import datetime
 import uuid
-
 from flask import Flask, request, jsonify, render_template
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -232,7 +231,7 @@ class JobPoolCompleteService(Resource):
     def post(self):  # Get All Statistics
         try:
             postedData = request.get_json()
-            res = self.mongo.get({'is_taken':True,'bandit':postedData['bandit']},1)
+            res = self.mongo.get({'job_id':postedData['job_id']},1)
 
             if len(res.json['data']) < 1:
                 return jsonify({
@@ -240,9 +239,10 @@ class JobPoolCompleteService(Resource):
                     'error': 'Job not exist'
                 })
 
-            job_signed_result = self.mongo.updateOne({"job_id":res.json['data'][0]["job_id"]},{
+            job_signed_result = self.mongo.updateOne({"job_id":postedData['job_id']},{
                 "is_completed":True,
-                "completed_date":datetime.datetime.timestamp(datetime.datetime.now())
+                "completed_date":datetime.datetime.timestamp(datetime.datetime.now()),
+                "success":postedData['success']
             })
 
             if job_signed_result.json["success"]:
@@ -264,7 +264,6 @@ class JobPoolCreateService(Resource):
             postedData = request.get_json()
             postedData['job_id'] = str(uuid.uuid4())
             postedData['is_taken'] = False
-            postedData['created_from'] = postedData["agent"]
             postedData['created_date'] = datetime.datetime.timestamp(datetime.datetime.now())
 
             result = self.mongo.insertOne(postedData)
