@@ -191,8 +191,8 @@ class JobPoolCheckService(Resource):
 
             res_con = self.mongo.get({'is_taken': True, 'signed_to': postedData["bandit"], 'is_completed': {"$exists": True}})
 
-            if len(res_con.json['data']) < 1:
-                return jsonify({'success': True, 'data': res_con.json['data']})
+            if len(res_con.json['data']) > 0:
+                return jsonify({'success': True, 'data': res_con.json['data'][0]})
 
             res = self.mongo.get({'is_taken': False}, 1)
 
