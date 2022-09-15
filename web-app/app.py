@@ -21,7 +21,6 @@ class MongoDB:
         self.client = MongoClient('mongodb://db:27017')
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
-        self.selected_column.drop()
 
     def get(self, query, limit=10, skip=0):
         try:
