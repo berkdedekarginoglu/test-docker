@@ -74,12 +74,12 @@ class BanditsStatistics(Resource):
         try:
             postedData = request.get_json()
 
-            isExist = self.mongo.get({'bandit':postedData['bandit']})
+            isExist = self.mongo.get({'bandit': postedData['bandit']})
 
             if len(isExist.json['data']) > 0:
                 return jsonify({
-                    'success':False,
-                    'error':'Bandit exist'
+                    'success': False,
+                    'error': 'Bandit exist'
                 })
 
             postedData['created_at'] = datetime.datetime.timestamp(datetime.datetime.now())
@@ -109,8 +109,8 @@ class BanditsStatistics(Resource):
             limit = int(args['limit'])
             skip = int(args['skip'])
 
-            res = self.mongo.get({},limit=limit,skip=skip)
-            return jsonify({'success':True,'data':res.json['data']})
+            res = self.mongo.get({}, limit=limit, skip=skip)
+            return jsonify({'success': True, 'data': res.json['data']})
 
         except Exception as e:
             returnMap = {
@@ -128,8 +128,8 @@ class BanditsStatistics(Resource):
 
             if len(isExist.json['data']) < 1:
                 return jsonify({
-                    'success':False,
-                    'error':'User does not exist'
+                    'success': False,
+                    'error': 'User does not exist'
                 })
 
             postedData['updated_at'] = datetime.datetime.timestamp(datetime.datetime.now())
@@ -152,9 +152,12 @@ class BanditsStatistics(Resource):
                 'success': False,
                 'error': str(e)
             })
+
+
 class BanditsStatisticsFilter(Resource):
     def __init__(self):
         self.mongo = MongoDB('banditos', 'bandits_scan_statistics')
+
     def post(self):  # Get Bandit Filter
         try:
             postedData = request.get_json()
@@ -177,12 +180,21 @@ class BanditsStatisticsFilter(Resource):
                 'error': str(e)
             })
 
+
 class JobPoolCheckService(Resource):
     def __init__(self):
         self.mongo = MongoDB('banditos', 'job_pool')
+
     def post(self):  # Get All Statistics
         try:
-            res = self.mongo.get({'is_taken':False},1)
+            postedData = request.get_json()
+
+            res_con = self.mongo.get({'is_taken': True, 'signed_to': postedData["bandit"], 'is_completed': None})
+
+            if len(res_con.json['data']) < 1:
+                return jsonify({'success': True, 'data': res_con.json['data']})
+
+            res = self.mongo.get({'is_taken': False}, 1)
 
             if len(res.json['data']) < 1:
                 return jsonify({
@@ -190,16 +202,14 @@ class JobPoolCheckService(Resource):
                     'error': 'Job not exist'
                 })
 
-            postedData = request.get_json()
-
-            job_signed_result = self.mongo.updateOne({"job_id":res.json['data'][0]["job_id"]},{
-                "signed_to":postedData["bandit"],
-                "signed_date":datetime.datetime.timestamp(datetime.datetime.now()),
-                "is_taken":True
+            job_signed_result = self.mongo.updateOne({"job_id": res.json['data'][0]["job_id"]}, {
+                "signed_to": postedData["bandit"],
+                "signed_date": datetime.datetime.timestamp(datetime.datetime.now()),
+                "is_taken": True
             })
 
             if job_signed_result.json["success"]:
-                return jsonify({'success':True,'data':res.json['data']})
+                return jsonify({'success': True, 'data': res.json['data']})
 
         except Exception as e:
             returnMap = {
@@ -215,8 +225,8 @@ class JobPoolCheckService(Resource):
             limit = int(args['limit'])
             skip = int(args['skip'])
 
-            res = self.mongo.get({},limit=limit,skip=skip)
-            return jsonify({'success':True,'data':res.json['data']})
+            res = self.mongo.get({}, limit=limit, skip=skip)
+            return jsonify({'success': True, 'data': res.json['data']})
 
         except Exception as e:
             returnMap = {
@@ -225,13 +235,15 @@ class JobPoolCheckService(Resource):
             }
             return jsonify(returnMap)
 
+
 class JobPoolCompleteService(Resource):
     def __init__(self):
         self.mongo = MongoDB('banditos', 'job_pool')
+
     def post(self):  # Get All Statistics
         try:
             postedData = request.get_json()
-            res = self.mongo.get({'job_id':postedData['job_id']},1)
+            res = self.mongo.get({'job_id': postedData['job_id']}, 1)
 
             if len(res.json['data']) < 1:
                 return jsonify({
@@ -239,14 +251,14 @@ class JobPoolCompleteService(Resource):
                     'error': 'Job not exist'
                 })
 
-            job_signed_result = self.mongo.updateOne({"job_id":postedData['job_id']},{
-                "is_completed":True,
-                "completed_date":datetime.datetime.timestamp(datetime.datetime.now()),
-                "success":postedData['success']
+            job_signed_result = self.mongo.updateOne({"job_id": postedData['job_id']}, {
+                "is_completed": True,
+                "completed_date": datetime.datetime.timestamp(datetime.datetime.now()),
+                "success": postedData['success']
             })
 
             if job_signed_result.json["success"]:
-                return jsonify({'success':True,'data':res.json['data']})
+                return jsonify({'success': True, 'data': res.json['data']})
 
         except Exception as e:
             returnMap = {
@@ -255,10 +267,12 @@ class JobPoolCompleteService(Resource):
             }
             return jsonify(returnMap)
 
+
 class JobPoolCreateService(Resource):
 
     def __init__(self):
         self.mongo = MongoDB('banditos', 'job_pool')
+
     def post(self):  # Add New Job
         try:
             postedData = request.get_json()
@@ -283,7 +297,6 @@ class JobPoolCreateService(Resource):
                 'success': False,
                 'error': str(e)
             })
-
 
 
 api.add_resource(BanditsStatistics, '/api/bandits/statistics')
