@@ -189,7 +189,7 @@ class JobPoolCheckService(Resource):
         try:
             postedData = request.get_json()
 
-            res_con = self.mongo.get({'is_taken': True, 'signed_to': postedData["bandit"], 'is_completed': {"$exists": True}})
+            res_con = self.mongo.get({'is_taken': True, 'signed_to': postedData["bandit"], 'is_completed': None},1)
 
             if len(res_con.json['data']) > 0:
                 return jsonify({'success': True, 'data': res_con.json['data'][0]})
