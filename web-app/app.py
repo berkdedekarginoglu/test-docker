@@ -18,7 +18,6 @@ def index():
 class MongoDB:
     def __init__(self, db_name, column_name):
         self.client = MongoClient('mongodb://db:27017')
-        self.client.drop_database(db_name)
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
