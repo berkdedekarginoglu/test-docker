@@ -52,9 +52,34 @@ class MongoDB:
                 'error': str(e)
             })
 
+    def insertMany(self, data):
+        try:
+            self.selected_column.insert_many(data)
+            return jsonify({
+                'success': True
+            })
+
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e)
+            })
+
     def updateOne(self, query, data):
         try:
             self.selected_column.update_one(query, {'$set': data}, upsert=True)
+            return jsonify({
+                'success': True
+            })
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': str(e)
+            })
+
+    def updateMany(self, query, data):
+        try:
+            self.selected_column.update_many(query, {'$set': data}, upsert=True)
             return jsonify({
                 'success': True
             })
@@ -77,7 +102,7 @@ class AddAccountsToLocked(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            result = self.mongo.insertMany(postedData)
             return jsonify(result.json)
 
         except Exception as e:
@@ -114,7 +139,7 @@ class AddAccountsToNotRegistred(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            result = self.mongo.insertMany(postedData)
             return jsonify(result.json)
 
         except Exception as e:
@@ -151,7 +176,7 @@ class AddAccountsToSuccess(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            result = self.mongo.insertMany(postedData)
             return jsonify(result.json)
 
             return jsonify({
@@ -186,14 +211,14 @@ class GetAccountsFromSuccess(Resource):
 
 class AddAccountsToWrongPassword(Resource):
     def __init__(self):
-        self.mongo = MongoDB('banditos', 'accounts_wronng_password')
+        self.mongo = MongoDB('banditos', 'accounts_wrong_password')
 
     def post(self):
         try:
 
             postedData = request.get_json()
 
-            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            result = self.mongo.insertMany(postedData)
             return jsonify(result.json)
 
         except Exception as e:
@@ -230,7 +255,7 @@ class AddAccountsToExceptions(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            result = self.mongo.insertMany(postedData)
             return jsonify(result.json)
 
         except Exception as e:
