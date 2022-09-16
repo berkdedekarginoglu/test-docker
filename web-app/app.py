@@ -55,7 +55,7 @@ class MongoDB:
 
     def insertMany(self, data):
         try:
-            self.selected_column.insert_many(data)
+            self.selected_column.insert_many(data,upsert=True)
             return jsonify({
                 'success': True
             })
