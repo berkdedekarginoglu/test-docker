@@ -102,8 +102,8 @@ class AddAccountsToLocked(Resource):
         try:
 
             postedData = request.get_json()
-
-            result = self.mongo.insertMany(postedData)
+            for x in list(postedData):
+                result = self.mongo.updateOne({'phone_number':x['phone_number']},x)
             return jsonify(result.json)
 
         except Exception as e:
