@@ -12,7 +12,7 @@ api = Api(app)
 class MongoDB:
     def __init__(self, db_name, column_name):
         self.client = MongoClient('mongodb://db:27017')
-        #self.client.drop_database(db_name)
+        self.client.drop_database(db_name)
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
@@ -53,34 +53,9 @@ class MongoDB:
                 'error': str(e)
             })
 
-    def insertMany(self, data):
-        try:
-            self.selected_column.insert_many(data,ordered=False)
-            return jsonify({
-                'success': True
-            })
-
-        except Exception as e:
-            return jsonify({
-                'success': False,
-                'error': str(e)
-            })
-
     def updateOne(self, query, data):
         try:
             self.selected_column.update_one(query, {'$set': data}, upsert=True)
-            return jsonify({
-                'success': True
-            })
-        except Exception as e:
-            return jsonify({
-                'success': False,
-                'error': str(e)
-            })
-
-    def updateMany(self, query, data):
-        try:
-            self.selected_column.update_many(query, {'$set': data}, upsert=True)
             return jsonify({
                 'success': True
             })
@@ -102,9 +77,17 @@ class AddAccountsToLocked(Resource):
         try:
 
             postedData = request.get_json()
-            for x in list(postedData):
-                result = self.mongo.updateOne({'phone_number':x['phone_number']},x)
-            return jsonify(result.json)
+
+            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error':result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -122,7 +105,23 @@ class GetAccountsFromLocked(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
-            return jsonify(result.json)
+            if result.json['success']:
+
+                if len(result.json) < 1:
+                    return jsonify({
+                        'success': False,
+                        'data': result.json
+                    })
+
+                return jsonify({
+                    'success': True,
+                    'data':result.json
+                })
+
+            return jsonify({
+                'success': False,
+                'data': result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -140,8 +139,16 @@ class AddAccountsToNotRegistred(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.insertMany(postedData)
-            return jsonify(result.json)
+            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error':result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -159,7 +166,23 @@ class GetAccountsFromNotRegistred(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
-            return jsonify(result.json)
+            if result.json['success']:
+
+                if len(result.json) < 1:
+                    return jsonify({
+                        'success': False,
+                        'data': result.json
+                    })
+
+                return jsonify({
+                    'success': True,
+                    'data':result.json
+                })
+
+            return jsonify({
+                'success': False,
+                'data': result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -177,8 +200,11 @@ class AddAccountsToSuccess(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.insertMany(postedData)
-            return jsonify(result.json)
+            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
 
             return jsonify({
                 'success': False,
@@ -201,7 +227,23 @@ class GetAccountsFromSuccess(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
-            return jsonify(result.json)
+            if result.json['success']:
+
+                if len(result.json) < 1:
+                    return jsonify({
+                        'success': False,
+                        'data': result.json
+                    })
+
+                return jsonify({
+                    'success': True,
+                    'data':result.json
+                })
+
+            return jsonify({
+                'success': False,
+                'data': result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -212,15 +254,23 @@ class GetAccountsFromSuccess(Resource):
 
 class AddAccountsToWrongPassword(Resource):
     def __init__(self):
-        self.mongo = MongoDB('banditos', 'accounts_wrong_password')
+        self.mongo = MongoDB('banditos', 'accounts_wronng_password')
 
     def post(self):
         try:
 
             postedData = request.get_json()
 
-            result = self.mongo.insertMany(postedData)
-            return jsonify(result.json)
+            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error':result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -238,7 +288,23 @@ class GetAccountsFromWrongPassword(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
-            return jsonify(result.json)
+            if result.json['success']:
+
+                if len(result.json) < 1:
+                    return jsonify({
+                        'success': False,
+                        'data': result.json
+                    })
+
+                return jsonify({
+                    'success': True,
+                    'data':result.json
+                })
+
+            return jsonify({
+                'success': False,
+                'data': result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -256,8 +322,16 @@ class AddAccountsToExceptions(Resource):
 
             postedData = request.get_json()
 
-            result = self.mongo.insertMany(postedData)
-            return jsonify(result.json)
+            result = self.mongo.updateOne({'phone_number':postedData['phone_number']},postedData)
+            if result.json['success']:
+                return jsonify({
+                    'success': True
+                })
+
+            return jsonify({
+                'success': False,
+                'error':result.json
+            })
 
         except Exception as e:
             returnMap = {
@@ -275,7 +349,23 @@ class GetAccountsFromExceptions(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
-            return jsonify(result.json)
+            if result.json['success']:
+
+                if len(result.json) < 1:
+                    return jsonify({
+                        'success': False,
+                        'data': result.json
+                    })
+
+                return jsonify({
+                    'success': True,
+                    'data':result.json
+                })
+
+            return jsonify({
+                'success': False,
+                'data': result.json
+            })
 
         except Exception as e:
             returnMap = {
