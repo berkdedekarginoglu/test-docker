@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify, render_template
+import uuid
+
+from flask import Flask, request, jsonify, render_template, Response
 from flask_restful import Resource, Api
 from pymongo import MongoClient
 
@@ -12,7 +14,7 @@ api = Api(app)
 class MongoDB:
     def __init__(self, db_name, column_name):
         self.client = MongoClient('mongodb://db:27017')
-        self.client.drop_database(db_name)
+        #self.client.drop_database(db_name)
         self.selected_db = self.client[db_name]
         self.selected_column = self.selected_db[column_name]
 
@@ -199,6 +201,33 @@ class GetAccountsFromSuccess(Resource):
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=False)
 
             return jsonify(result.json)
+
+        except Exception as e:
+            returnMap = {
+                'success': False,
+                'error': str(e)
+            }
+            return jsonify(returnMap)
+
+class GetAccountsFromSuccessAfterDelete(Resource):
+    def __init__(self):
+        self.mongo = MongoDB('banditos', 'accounts_success')
+
+    def post(self):
+        try:
+            postedData = request.get_json()
+            result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
+            generated_uuid = uuid.uuid4()
+            with open(f'{generated_uuid}.txt','a') as file:
+                for x in result.json['data']:
+                    file.write(f"{x['username']}:{x['gsm']}:{x['passwsord']}\n")
+
+            returnMap = {
+                'success': True,
+                'data': f"{generated_uuid}.txt"
+            }
+
+            return jsonify(returnMap)
 
         except Exception as e:
             returnMap = {
