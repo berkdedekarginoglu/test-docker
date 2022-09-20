@@ -323,6 +323,7 @@ api.add_resource(AddAccountsToWrongPassword, '/api/accounts/wrongpasswords/add')
 api.add_resource(GetAccountsFromWrongPassword, '/api/accounts/wrongpasswords/get')
 api.add_resource(AddAccountsToExceptions, '/api/accounts/exceptions/add')
 api.add_resource(GetAccountsFromExceptions, '/api/accounts/exceptions/get')
+api.add_resource(GetAccountsFromSuccessAfterDelete, '/api/accounts/success/get/afterdelete')
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')
