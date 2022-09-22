@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from flask import Flask, request, jsonify, render_template, Response
@@ -218,7 +219,8 @@ class GetAccountsFromSuccessAfterDelete(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
             generated_data = ''
-            for x in result.json.data:
+            json_data =  json.loads(result.json)
+            for x in json_data['data']:
                 generated_data += f"{x['phone_number']}:{x['new_password']}:{x['username']}\n"
             returnMap = {
                 'success': True,
