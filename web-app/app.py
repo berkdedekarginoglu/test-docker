@@ -217,14 +217,12 @@ class GetAccountsFromSuccessAfterDelete(Resource):
         try:
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
-            generated_uuid = uuid.uuid4()
-            with open(f'{generated_uuid}.txt','a') as file:
-                for x in result.json['data']:
-                    file.write(f"{x['username']}:{x['gsm']}:{x['passwsord']}\n")
-
+            generated_data = ''
+            for x in result:
+                generated_data += f"{x['phone_number']}:{x['new_password']}:{x['username']}\n"
             returnMap = {
                 'success': True,
-                'data': f"{generated_uuid}.txt"
+                'data': generated_data
             }
 
             return jsonify(returnMap)
