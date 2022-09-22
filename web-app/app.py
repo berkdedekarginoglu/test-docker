@@ -39,7 +39,7 @@ class MongoDB:
         except Exception as e:
             returnMap = {
                 'success': False,
-                'error': str(e)
+                'error': f'MongoDB {str(e)}'
             }
             return jsonify(returnMap)
 
@@ -219,9 +219,9 @@ class GetAccountsFromSuccessAfterDelete(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
             generated_data = ''
-            for x in result.json['data']:
-                json_data = json.loads(x)
-                generated_data += f"{json_data['phone_number']}:{json_data['new_password']}:{json_data['username']}\n"
+            for x in list(result.json['data']):
+                x = json.loads(x)
+                generated_data += f"{x['phone_number']}:{x['new_password']}:{x['username']}\n"
             returnMap = {
                 'success': True,
                 'data': str(generated_data)
