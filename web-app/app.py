@@ -218,11 +218,11 @@ class GetAccountsFromSuccessAfterDelete(Resource):
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
             generated_data = ''
-            for x in list(result.json['data']):
+            for x in result.json.data:
                 generated_data += f"{x['phone_number']}:{x['new_password']}:{x['username']}\n"
             returnMap = {
                 'success': True,
-                'data': generated_data
+                'data': str(generated_data)
             }
 
             return jsonify(returnMap)
