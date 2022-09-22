@@ -22,8 +22,8 @@ class MongoDB:
     def get(self, query, limit=10, skip=0, deleteAfterFind=False):
         try:
             if deleteAfterFind:
-                m = [x['_id'] for x in self.selected_column.find({}, {'_id': False}, limit=limit)]
-                self.selected_column.delete_many({'_id': {'$in': list(m)}})
+                m = [x['phone_number'] for x in self.selected_column.find({}, {'_id': 0}, limit=limit)]
+                self.selected_column.delete_many({'phone_number': {'$in': list(m)}})
                 return jsonify({
                     'success': True,
                     'data': list(m)
