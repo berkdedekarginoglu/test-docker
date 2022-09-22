@@ -218,9 +218,9 @@ class GetAccountsFromSuccessAfterDelete(Resource):
         try:
             postedData = request.get_json()
             result = self.mongo.get({},limit=int(postedData['count']),deleteAfterFind=True)
+            test = json.loads(result)
             generated_data = ''
-            for x in list(result.json['data']):
-                x = json.loads(x)
+            for x in test['data']:
                 generated_data += f"{x['phone_number']}:{x['new_password']}:{x['username']}\n"
             returnMap = {
                 'success': True,
